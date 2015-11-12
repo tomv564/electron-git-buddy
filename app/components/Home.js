@@ -6,14 +6,13 @@ import Index from './Index';
 
 export default class Home extends Component {
   render() {
-    console.log(this.props)
     return (
       <div>
         <div className={styles.container}>
           <h2>Home</h2>
           <Link to="/counter">to Counter</Link>
-          <Index index={this.props.index} getStatus={this.props.getStatus}/>
-          <Stash stash={this.props.stash}/>
+          <Index index={this.props.index} getStatus={this.props.getStatus} stagePath={this.props.stagePath}/>
+          <Stash stash={this.props.stash} getStash={this.props.getStash}/>
         </div>
       </div>
     );

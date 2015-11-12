@@ -1,14 +1,11 @@
-// import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../actions/counter';
+import { RECEIVE_STASHES } from '../actions/index';
 
-var initialState = [{name: 'stash1234', files: ['bacd.txt', 'lol.js']}];
-
-export default function stash(state = initialState, action) {
+export default function stash(state = [], action) {
   switch (action.type) {
-  // case INCREMENT_COUNTER:
-  //   return state + 1;
-  // case DECREMENT_COUNTER:
-  //   return state - 1;
-  default:
-    return state;
+  
+  	case RECEIVE_STASHES:
+    	return action.stashes;
+  	default:
+   		return state;
   }
 }
