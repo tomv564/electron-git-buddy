@@ -20,7 +20,7 @@ export default class Index extends Component {
 
     return (
         <li key={'item'+index}>
-          <input type="checkbox" value={status.path} onClick={e => this.stagePath(e.target.value)}/>
+          <input type="checkbox" value={status.path} onClick={e => this.props.stagePath(e.target.value)}/>
           {status.path}
         </li>
       )

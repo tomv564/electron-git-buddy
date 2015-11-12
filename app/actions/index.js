@@ -34,10 +34,15 @@ export function pathStaged(path) {
 
 export function stagePath(path) {
 	return function(dispatch) {
-		Git.Index.open('.')
+		Git.Repository.open(".")
+			.then(repo => repo.openIndex())
 			.then(index => {
-				dispatch(pathStaged(path));
-			});
+					debugger;
+					let result = index.addByPath(path);
+					console.log(result);
+					dispatch(pathStaged(path));
+				});
+			
 	}
 }
 
