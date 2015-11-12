@@ -16,6 +16,9 @@
     "package": "NODE_ENV=production node package.js",
     "package-all": "npm run package -- --all"
   },
+  "engines": {
+    "electron": "0.34.3"
+  },
   "bin": {
     "electron": "./node_modules/.bin/electron"
   },
@@ -92,6 +95,7 @@
     "electron-debug": "^0.4.0",
     "font-awesome": "^4.4.0",
     "history": "^1.13.0",
+    "nodegit": "^0.5.0",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-redux": "^4.0.0",
