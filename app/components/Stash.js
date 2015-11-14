@@ -19,7 +19,7 @@ export default class Stash extends Component {
   }
 
   renderEmpty() {
-    return <p>No stashes</p>;
+    return <span></span>;
   }
 
   render() {
