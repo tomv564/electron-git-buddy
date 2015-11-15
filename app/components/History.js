@@ -5,7 +5,7 @@ export default class History extends Component {
     commits: PropTypes.array.isRequired,
     getLog: PropTypes.func.isRequired,
   }
-  
+
   componentDidMount() {
     this.props.getLog();
   }
@@ -16,13 +16,11 @@ export default class History extends Component {
   // }
 
   renderCommit(commit, index) {
-
     return (
-        <li key={'commit-'+index}>
-            {commit.message}    
+        <li key={'commit-' + index}>
+            {commit.message}
         </li>
-      )
-    
+      );
   }
 
   render() {

@@ -4,7 +4,7 @@ import styles from './Panel.module.css';
 
 export default class TitleBar extends Component {
   static propTypes = {
-    children: React.PropTypes.any
+    children: PropTypes.any
   };
 
 

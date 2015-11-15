@@ -6,25 +6,22 @@ export default class Index extends Component {
     getStatus: PropTypes.func.isRequired,
     stagePath: PropTypes.func.isRequired
   }
-  
+
   componentDidMount() {
     this.props.getStatus();
   }
 
   onStagePathClicked(e) {
-    console.log(e.target.value);
     this.props.stagePath(e.target.value);
   }
 
   renderFile(status, index) {
-
     return (
-        <li key={'item'+index}>
+        <li key={'item' + index}>
           <input type="checkbox" value={status.path} onClick={e => this.props.stagePath(e.target.value)}/>
           {status.path}
         </li>
-      )
-    
+      );
   }
 
   render() {

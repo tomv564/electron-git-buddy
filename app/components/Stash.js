@@ -1,10 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 export default class Stash extends Component {
-  static propTypes = {
-    stash: PropTypes.array.isRequired,
-  }
-
+ 
   componentDidMount() {
     this.props.getStash();
   }
@@ -23,8 +20,13 @@ export default class Stash extends Component {
   }
 
   render() {
-    return this.props.stash.length > 0 ? 
-            this.renderStashes(this.props.stash) : 
+    return this.props.stash.length > 0 ?
+            this.renderStashes(this.props.stash) :
             this.renderEmpty();
   }
 }
+
+Stash.propTypes = {
+  stash: PropTypes.array.isRequired
+};
+

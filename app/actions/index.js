@@ -1,3 +1,4 @@
+/* eslint space-before-function-paren: [2, "never"] */
 import Git from 'nodegit';
 
 export const REFRESH_INDEX = 'REFRESH_INDEX';
@@ -8,7 +9,7 @@ export const PATH_STAGED = 'PATH_STAGED';
 
 var repo = undefined;
 
-function getRepository () {
+function getRepository() {
 	if (!repo) {
 		repo = Git.Repository.open('.');
 	}
@@ -16,23 +17,23 @@ function getRepository () {
 	return Promise.resolve(repo);
 }
 
-export function refreshIndex () {
+export function refreshIndex() {
   return {
     type: REFRESH_INDEX
   };
 }
 
-export function remoteFetched () {
+export function remoteFetched() {
 	return {
 		type: REMOTE_FETCHED
 	};
 }
 
-export function gitFetch () {
+export function gitFetch() {
 	return dispatch => {
 		getRepository().then(
 			repo => { 
-				repo.fetch('origin')
+				repo.fetch('origin');
 				dispatch(remoteFetched());
 			});
 	};
@@ -99,9 +100,7 @@ export function stagePath(path) {
 		Git.Repository.open(".")
 			.then(repo => repo.openIndex())
 			.then(index => {
-					debugger;
 					let result = index.addByPath(path);
-					console.log(result);
 					dispatch(pathStaged(path));
 				});
 	};

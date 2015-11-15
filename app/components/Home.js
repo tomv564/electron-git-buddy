@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import styles from './Home.module.css';
 import Stash from './Stash';
 import Index from './Index';
@@ -25,7 +24,7 @@ export default class Home extends Component {
               <h2>Index</h2>
               <button>Refresh</button>
             </TitleBar>
-            <Index index={this.props.index} getStatus={this.props.getStatus} stagePath={this.props.stagePath}/>        
+            <Index index={this.props.index} getStatus={this.props.getStatus} stagePath={this.props.stagePath}/>
           </Panel>
 
           <Panel>
