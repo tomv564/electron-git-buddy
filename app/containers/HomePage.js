@@ -7,7 +7,8 @@ import * as IndexActions from '../actions/index';
 function mapStateToProps(state) {
   return {
     stash: state.stash,
-    index: state.changes
+    index: state.changes,
+    commits: state.commits
   };
 }
 

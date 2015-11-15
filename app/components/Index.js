@@ -30,14 +30,8 @@ export default class Index extends Component {
   render() {
     return (
       <div>
-        <div >
-          <h3>Changes</h3>
-          <button onClick={this.props.getStatus}>Refresh</button>
-          <h4>Staged</h4>
-          <ul>{this.props.index.staged.map(this.renderFile.bind(this))}</ul>
-          <h4>Unstaged</h4>
-          <ul>{this.props.index.unstaged.map(this.renderFile.bind(this))}</ul>
-        </div>
+        <ul>{this.props.index.staged.map(this.renderFile.bind(this))}</ul>
+        <ul>{this.props.index.unstaged.map(this.renderFile.bind(this))}</ul>
       </div>
     );
   }

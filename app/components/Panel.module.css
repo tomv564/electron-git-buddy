@@ -1,12 +1,19 @@
 .panel {
 	margin: 0px;
 	padding: 1em;
-	background: #ccc;
+	background: #16232A;
 	border-bottom: 1px solid #ddd;
+	color: #A0A0A0;
 }
 
 .panel h2 {
 	font-size: 0.8em;
 	font-weight: bold;
+	color: #6C99BB; /*108, 153, 187*/
 	text-transform: uppercase;
+}
+
+
+.titleBar {
+	height: 2em;
 }
