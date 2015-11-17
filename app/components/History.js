@@ -17,18 +17,20 @@ export default class History extends Component {
 
   renderCommit(commit, index) {
     return (
-        <li key={'commit-' + index}>
-            {commit.message}
-        </li>
+        <tr key={'commit-' + index}>
+          <td>{commit.date.toISOString()}</td>
+          <td>{commit.authorName}</td>
+          <td>{commit.message}</td>
+        </tr>
       );
   }
 
   render() {
     return (
       <div>
-        <div >
-          <ul>{this.props.commits.map(this.renderCommit.bind(this))}</ul>
-        </div>
+        <table>
+          <tbody>{this.props.commits.map(this.renderCommit.bind(this))}</tbody>
+        </table>
       </div>
     );
   }

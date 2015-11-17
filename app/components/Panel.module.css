@@ -1,19 +1,44 @@
 .panel {
 	margin: 0px;
-	padding: 1em;
-	background: #16232A;
-	border-bottom: 1px solid #ddd;
+	background: #1B2B34;
+	border-bottom: 1px solid #333;
 	color: #A0A0A0;
 }
 
-.panel h2 {
+
+
+/*button {
+ 	background-color: #16232A;
+ 	color: #6C99BB;
+ 	font-weight: bold;
+ 	font-size: 12px;
+ 	padding: 0.5em;
+ 	font-family: Arial, Helvetica Neue, Helvetica;
+ 	border: 0;
+}*/
+
+
+
+
+.titleBar {
+	padding: 10px;
+	display: flex;
+	background: #16232A;
+	flex-direction: row;
+	/*height: 2em;*/
+
+}
+
+.titleBar h2 {
+	margin-top: 5px;
 	font-size: 0.8em;
 	font-weight: bold;
 	color: #6C99BB; /*108, 153, 187*/
 	text-transform: uppercase;
+	flex: 1;
 }
 
 
-.titleBar {
-	height: 2em;
+.titleBar .controls {
+	flex: 1;
 }

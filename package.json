@@ -9,6 +9,7 @@
     "test-e2e:crdv": "chromedriver",
     "test-e2e": "NODE_ENV=test mocha --compilers js:babel/register --require ./test/setup.js ./test/e2e.js",
     "lint": "eslint .",
+    "fix": "eslint --fix",
     "hot-server": "node server.js",
     "build": "NODE_ENV=production webpack --config webpack.config.production.js --progress --profile --colors",
     "start": "electron .",

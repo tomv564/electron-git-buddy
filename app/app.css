@@ -1,10 +1,12 @@
 body {
   margin: 0;
   position: relative;
-  height: 100vh;
+  /*height: 100vh;*/
   font-family: Arial, Helvetica Neue, Helvetica;
   overflow-y: hidden;
 }
+
+html, body{ height:100%; margin: 0;}
 
 h2 {
   margin: 0;
@@ -31,4 +33,43 @@ a:hover {
   opacity: 1;
   text-decoration: none;
   cursor: pointer;
+}
+
+button {
+  text-transform: uppercase;
+  /*font-size: 1em;*/
+  border: 1px solid;
+  border-radius: 3px;
+  font-family: Arial, "Helvetica Neue", Helvetica;
+
+  background-color: #16232A;
+  color: #6C99BB;
+
+  font-weight: bold;
+  padding: 0.5em;
+
+}
+
+.bigtitle {
+  /*font-family: Futura;*/
+  margin-top: 0px;
+  /*width: 100%;*/
+  height: 50px;
+  background-color: #1e1e1e;
+  color: #FAC863;
+}
+
+table {
+  font-size: 12px;
+}
+
+button:hover {
+  color: #16232A;
+  background-color: #6C99BB;
+
+}
+
+input[type=checkbox] {
+  border: 1px solid #16232A;
+  background-color: #6C99BB;
 }
