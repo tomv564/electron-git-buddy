@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 export default class Stash extends Component {
 
   componentDidMount() {
-    this.props.getStash();
+//    this.props.getStash();
   }
 
   renderStashes(stashes) {

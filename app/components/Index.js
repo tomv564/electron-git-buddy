@@ -39,6 +39,16 @@ function buildPathTree(items) {
       addItem(dirNode, item, restOfPath);
       // console.log(node);
     }
+
+    // check parent if children all checked.
+    if (node.children) {
+      node.inIndex = true;
+      node.children.forEach((child) => {
+        if (!child.inIndex) {
+          node.inIndex = false;
+        }
+      });
+    }
   }
 
   // debugger;
@@ -65,7 +75,6 @@ export default class Index extends Component {
   renderItem(item) {
 
     const childItems = item.children ? item.children.map((child, index) => this.renderItem(child, index)) : '';
-
     return (
       <div>
         {this.renderPathCheckbox(item.path, item.inIndex)}
@@ -75,15 +84,6 @@ export default class Index extends Component {
           {childItems}
         </ul>
       </div>
-      );
-  }
-
-  renderPath(name, status, index) {
-    return (
-          <li key={'item' + index}>
-            {this.renderPathCheckbox(status.path, status.inIndex)}
-            {name}
-          </li>
       );
   }
 

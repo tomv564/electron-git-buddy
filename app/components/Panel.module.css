@@ -6,7 +6,6 @@
 }
 
 
-
 /*button {
  	background-color: #16232A;
  	color: #6C99BB;
@@ -18,7 +17,10 @@
 }*/
 
 
+.content {
+  background: #1B2B34;
 
+}
 
 .titleBar {
 	padding: 10px;

@@ -1,24 +1,51 @@
 import Git from 'nodegit';
+import {startWatcher} from '../api/FsApi';
 
 export const REFRESH_INDEX = 'REFRESH_INDEX';
 export const RECEIVE_STATUS = 'RECEIVE_STATUS';
 export const RECEIVE_STASHES = 'RECEIVE_STASHES';
 export const RECEIVE_COMMITS = 'RECEIVE_COMMITS';
+export const WORKINGDIR_CHANGED = 'WORKINGDIR_CHANGED';
 export const PATH_STAGED = 'PATH_STAGED';
 
+const repoPath = '.';
 let repository = undefined;
 
 function getRepository() {
   if (!repository) {
-    repository = Git.Repository.open('.');
+    repository = Git.Repository.open(repoPath);
   }
 
   return Promise.resolve(repository);
 }
 
+let refreshTriggered = false;
+
+export function startMonitor() {
+  return dispatch => {
+    startWatcher(repoPath, (event, filePath) => {
+
+      if (refreshTriggered) return;
+
+      console.log(filePath);
+      refreshTriggered = true;
+      setTimeout(() => {
+        refreshTriggered = false;
+        dispatch(getStatus());
+      }, 1000);
+    });
+  };
+}
+
 export function refreshIndex() {
   return {
     type: REFRESH_INDEX
+  };
+}
+
+export function workingDirChanged() {
+  return {
+    type: WORKINGDIR_CHANGED
   };
 }
 
@@ -51,10 +78,14 @@ export function getLog() {
       repo => repo.getHeadCommit()
       ).then(
       head => {
+        if (!head) {
+          dispatch(receiveCommits([]));
+          return;
+        }
         var history = head.history();
         var commits = [];
         var parseCommit = commit => {
-          if (commits.length > 9) return;
+          if (commits.length > 5) return;
           var author = commit.author();
           commits.push({
             authorName: author.name(),
@@ -95,7 +126,7 @@ export function pathStaged(path) {
 
 export function stagePath(path) {
   return dispatch => {
-    Git.Repository.open('.')
+    getRepository()
       .then(repo => repo.openIndex())
       .then(index => {
         index.addByPath(path);
@@ -104,18 +135,16 @@ export function stagePath(path) {
   };
 }
 
-export function unStagePath(path) {
-}
 
 export function getStash() {
-  return dispatch => {
-    Git.Repository.open('.')
-      .then(repo => {
-        var stashes = [];
-        Git.Stash.foreach(repo, stash => stashes.push(stash))
-          .then(result => dispatch(receiveStashes(stashes)));
-      });
-  };
+  // return dispatch => {
+  //   getRepository()
+  //     .then(repo => {
+  //       var stashes = [];
+  //       Git.Stash.foreach(repo, stash => stashes.push(stash))
+  //         .then(result => dispatch(receiveStashes(stashes)));
+  //     });
+  // };
 }
 
 export function getStatus() {

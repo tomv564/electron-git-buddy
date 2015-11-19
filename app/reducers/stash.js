@@ -6,6 +6,6 @@ export default function stash(state = [], action) {
   	case RECEIVE_STASHES:
     	return action.stashes;
   	default:
-   		 return state;
+   		return state;
   }
 }

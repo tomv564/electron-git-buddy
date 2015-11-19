@@ -10,11 +10,6 @@ export default class History extends Component {
     this.props.getLog();
   }
 
-  // onStagePathClicked(e) {
-  //   console.log(e.target.value);
-  //   this.props.stagePath(e.target.value);
-  // }
-
   renderCommit(commit, index) {
     return (
         <tr key={'commit-' + index}>

@@ -23,6 +23,14 @@ li {
   list-style: none;
 }
 
+div#root {
+  height: 100%;
+}
+
+div.devWrapper {
+  height: 100%;
+}
+
 a {
   color: white;
   opacity: .75;
