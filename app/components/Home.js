@@ -13,6 +13,7 @@ export default class Home extends Component {
     stash: PropTypes.array.isRequired,
     getLog: PropTypes.func.isRequired,
     stagePath: PropTypes.func.isRequired,
+    resetPath: PropTypes.func.isRequired,
     getStash: PropTypes.func.isRequired,
     getStatus: PropTypes.func.isRequired,
     startMonitor: PropTypes.func.isRequired
@@ -48,7 +49,7 @@ export default class Home extends Component {
           <button>Stash</button>
         </TitleBar>
         <div className={styles.content}>
-          <Index index={this.props.index} getStatus={this.props.getStatus} stagePath={this.props.stagePath}/>
+          <Index index={this.props.index} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath}/>
         </div>
       </Panel>
     );

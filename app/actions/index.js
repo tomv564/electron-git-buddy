@@ -7,6 +7,7 @@ export const RECEIVE_STASHES = 'RECEIVE_STASHES';
 export const RECEIVE_COMMITS = 'RECEIVE_COMMITS';
 export const WORKINGDIR_CHANGED = 'WORKINGDIR_CHANGED';
 export const PATH_STAGED = 'PATH_STAGED';
+export const PATH_RESET = 'PATH_RESET';
 
 const repoPath = '.';
 let repository = undefined;
@@ -24,10 +25,8 @@ let refreshTriggered = false;
 export function startMonitor() {
   return dispatch => {
     startWatcher(repoPath, (event, filePath) => {
-
       if (refreshTriggered) return;
 
-      console.log(filePath);
       refreshTriggered = true;
       setTimeout(() => {
         refreshTriggered = false;
@@ -124,17 +123,51 @@ export function pathStaged(path) {
   };
 }
 
+export function pathReset(path) {
+  return {
+    type: PATH_RESET,
+    path: path
+  };
+}
+
 export function stagePath(path) {
+
+  const pathSpec = path.slice(2);
   return dispatch => {
     getRepository()
       .then(repo => repo.openIndex())
       .then(index => {
-        index.addByPath(path);
-        dispatch(pathStaged(path));
+        // index.read(1); // TODO: why?
+        // let result = index.addByPath(path);
+        index.addAll(pathSpec).then(result => {
+          console.log('index.addbypath', pathSpec, 'resulted in', result);
+          const writeResult = index.write();
+          console.log('index.write resulted in', writeResult);
+          dispatch(pathStaged(path));
+        }).catch(error => {
+          console.log(error);
+        });
       });
   };
 }
 
+export function resetPath(path) {
+  const pathSpec = path.slice(2);
+  return dispatch => {
+    getRepository()
+      .then(repo => {
+        repo.getHeadCommit().then(head => {
+          Git.Reset.default(repo, head, pathSpec)
+            .then(result => {
+              console.log('reset.default HEAD', pathSpec, 'resulted in', result);
+              dispatch(pathReset(path));
+            }).catch(error => {
+              console.log(error);
+            });
+        });
+      });
+  };
+}
 
 export function getStash() {
   // return dispatch => {
