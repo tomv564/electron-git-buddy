@@ -8,6 +8,7 @@ export const RECEIVE_COMMITS = 'RECEIVE_COMMITS';
 export const WORKINGDIR_CHANGED = 'WORKINGDIR_CHANGED';
 export const PATH_STAGED = 'PATH_STAGED';
 export const PATH_RESET = 'PATH_RESET';
+export const COMMIT_CREATED = 'COMMIT_CREATED';
 
 const repoPath = '.';
 let repository = undefined;
@@ -68,6 +69,32 @@ export function receiveCommits(commits) {
   return {
     type: RECEIVE_COMMITS,
     commits: commits
+  };
+}
+
+export function commitCreated() {
+  return {
+    type: COMMIT_CREATED
+  };
+}
+
+export function commit(text) {
+  return dispatch => {
+    getRepository()
+      .then(repo => repo.getHeadCommit()
+        .then(head => {
+          repo.openIndex()
+          .then(index => index.writeTree())
+          .then(oid => {
+            debugger;
+            const signature = Git.Signature.default();
+            repo.createCommit('HEAD', signature, signature,
+            text, oid, [head]);
+            dispatch(commitCreated());
+          }).catch(error => {
+            console.log(error);
+          });
+        }));
   };
 }
 

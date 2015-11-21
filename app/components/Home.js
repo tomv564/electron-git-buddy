@@ -5,6 +5,7 @@ import Index from './Index';
 import Panel from './Panel';
 import TitleBar from './TitleBar';
 import History from './History';
+import Commit from './Commit';
 
 export default class Home extends Component {
   static propTypes = {
@@ -16,7 +17,8 @@ export default class Home extends Component {
     resetPath: PropTypes.func.isRequired,
     getStash: PropTypes.func.isRequired,
     getStatus: PropTypes.func.isRequired,
-    startMonitor: PropTypes.func.isRequired
+    startMonitor: PropTypes.func.isRequired,
+    commit: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -50,6 +52,8 @@ export default class Home extends Component {
         </TitleBar>
         <div className={styles.content}>
           <Index index={this.props.index} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath}/>
+          <hr/>
+          <Commit commit={this.props.commit}/>
         </div>
       </Panel>
     );

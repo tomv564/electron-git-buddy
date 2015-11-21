@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import dateFormat from 'dateformat';
 
 export default class History extends Component {
   static propTypes = {
@@ -10,10 +11,14 @@ export default class History extends Component {
     this.props.getLog();
   }
 
+  formatDate(date) {
+    return dateFormat(date, 'yyyy-mm-dd HH:MM');
+  }
+
   renderCommit(commit, index) {
     return (
         <tr key={'commit-' + index}>
-          <td>{commit.date.toISOString()}</td>
+          <td>{this.formatDate(commit.date)}</td>
           <td>{commit.authorName}</td>
           <td>{commit.message}</td>
         </tr>
