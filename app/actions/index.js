@@ -86,10 +86,11 @@ export function commit(text) {
           repo.openIndex()
           .then(index => index.writeTree())
           .then(oid => {
-            debugger;
-            const signature = Git.Signature.default();
+            const signature = Git.Signature.default(repo);
             repo.createCommit('HEAD', signature, signature,
-            text, oid, [head]);
+            text, oid, [head]).then(newOid => {
+              console.log('create commit resulted in ', newOid.tostrS());
+            });
             dispatch(commitCreated());
           }).catch(error => {
             console.log(error);

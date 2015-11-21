@@ -2,12 +2,11 @@ import React, { Component, PropTypes } from 'react';
 
 export default class Commit extends Component {
   static propTypes = {
-    commits: PropTypes.func.isRequired
+    commit: PropTypes.func.isRequired
   }
 
   commit() {
-    debugger;
-    commit(this.refs.message.value);
+    this.props.commit(this.refs.message.value);
   }
 
   render() {
