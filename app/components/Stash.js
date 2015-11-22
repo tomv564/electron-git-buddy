@@ -31,6 +31,7 @@ Stash.propTypes = {
 export default class StashPanel extends Component {
   static propTypes = {
     getStashes: PropTypes.func.isRequired,
+    popStash: PropTypes.func.isRequired,
     stashes: PropTypes.array.isRequired
   }
 
@@ -44,7 +45,7 @@ export default class StashPanel extends Component {
       <div>
         <TitleBar>
           <h2>Stashes <Badge>{this.props.stashes.length}</Badge></h2>
-          {hasStashes ? <Button bsSize="small" onClick={() => console.log('pop')}><Glyphicon glyph="open"/> Pop</Button>
+          {hasStashes ? <Button bsSize="small" onClick={() => this.props.popStash()}><Glyphicon glyph="open"/> Pop</Button>
                       : ''}
         </TitleBar>
       </div>

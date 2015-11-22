@@ -218,11 +218,18 @@ export function resetPath(path) {
 
 export function getStashes() {
   return dispatch => {
+    console.log('get stashes!');
     getRepository()
       .then(repo => {
         var stashes = [];
-        Git.Stash.foreach(repo, item => stashes.push(item))
-          .then(result => dispatch(receiveStashes(stashes)));
+        var collect = function(index, message, oid) {
+          stashes.push({index: index, message: message, oid: oid});
+        };
+        Git.Stash.foreach(repo, collect)
+          .then(result => {
+            console.log(result, stashes);
+            dispatch(receiveStashes(stashes));
+          });
       });
   };
 }

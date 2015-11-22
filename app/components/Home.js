@@ -19,7 +19,8 @@ export default class Home extends Component {
     getStatus: PropTypes.func.isRequired,
     startMonitor: PropTypes.func.isRequired,
     commit: PropTypes.func.isRequired,
-    stash: PropTypes.func.isRequired
+    stash: PropTypes.func.isRequired,
+    popStash: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -63,7 +64,9 @@ export default class Home extends Component {
   renderStashPanel() {
     return (
       <Panel key="stash" className={styles.stashPanel}>
-        <StashPanel stashes={this.props.stashes} getStashes={this.props.getStashes}/>
+        <StashPanel stashes={this.props.stashes}
+                  getStashes={this.props.getStashes}
+                  popStash={this.props.popStash}/>
       </Panel>
     );
   }
