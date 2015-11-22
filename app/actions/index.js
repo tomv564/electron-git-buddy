@@ -84,6 +84,12 @@ export function commitCreated() {
   };
 }
 
+export function stashCreated() {
+  return {
+    type: STASH_CREATED
+  };
+}
+
 export function commit(text) {
   return dispatch => {
     getRepository()
