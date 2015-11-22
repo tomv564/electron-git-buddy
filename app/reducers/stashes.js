@@ -8,8 +8,8 @@ export default function stashes(state = [], action) {
   case STASH_CREATED:
     return state.concat('stash');
   case STASH_POPPED:
-    const start = state.length < 2 ? 0 : 1;
-    return state.slice(start);
+    if (state.length < 2) return [];
+    return state.slice(1);
   default:
     return state;
   }
