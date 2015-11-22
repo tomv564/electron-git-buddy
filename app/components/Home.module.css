@@ -11,7 +11,6 @@
 }
 
 .stashPanel {
-  flex: 1;
   margin: 0px;
   border-bottom: 1px solid #333;
   /*color: #A0A0A0;*/
@@ -22,12 +21,12 @@
 .content {
   background: #f6f6f6;
   padding: 10px;
-
+  height: 100vh;
 }
 
 
 .indexPanel {
-  flex: 3;
+  flex: 1;
   background: #eeeeee;
   /*border-bottom: 1px solid #333;*/
   /*color: #A0A0A0;*/

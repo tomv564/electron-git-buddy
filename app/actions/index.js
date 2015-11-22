@@ -204,14 +204,14 @@ export function resetPath(path) {
 }
 
 export function getStashes() {
-  // return dispatch => {
-  //   getRepository()
-  //     .then(repo => {
-  //       var stashes = [];
-  //       Git.Stash.foreach(repo, stash => stashes.push(stash))
-  //         .then(result => dispatch(receiveStashes(stashes)));
-  //     });
-  // };
+  return dispatch => {
+    getRepository()
+      .then(repo => {
+        var stashes = [];
+        Git.Stash.foreach(repo, item => stashes.push(item))
+          .then(result => dispatch(receiveStashes(stashes)));
+      });
+  };
 }
 export function stash() {
   return dispatch => {

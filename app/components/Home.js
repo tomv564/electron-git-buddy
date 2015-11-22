@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './Home.module.css';
-import Stash from './Stash';
+import StashPanel from './Stash';
 import Index from './Index';
 import Panel from './Panel';
 import TitleBar from './TitleBar';
@@ -44,7 +44,7 @@ export default class Home extends Component {
 
   renderIndexPanel() {
     return (
-       <Panel key="index" styles={styles.indexPanel}>
+       <Panel key="index" style={{flex: 1}}>
         <TitleBar>
           <h2>Index</h2>
           <ButtonGroup bsSize="small">
@@ -62,18 +62,14 @@ export default class Home extends Component {
 
   renderStashPanel() {
     return (
-      <Panel key="stash" styles={styles.stashPanel}>
-        <TitleBar>
-          <h2>Stash</h2>
-          <button onClick={() => this.props.getStatus()}>Refresh</button>
-        </TitleBar>
-        <Stash stashes={this.props.stashes} getStash={this.props.getStashes}/>
+      <Panel key="stash" className={styles.stashPanel}>
+        <StashPanel stashes={this.props.stashes} getStashes={this.props.getStashes}/>
       </Panel>
     );
   }
 
   render() {
-    const panels = [this.renderIndexPanel()];
+    const panels = [this.renderIndexPanel(), this.renderStashPanel()];
 
     return (
       <div className={styles.container}>

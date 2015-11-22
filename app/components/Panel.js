@@ -1,5 +1,5 @@
 import React, { Component, PropTypes} from 'react';
-
+import styles from './Panel.module.css';
 
 export default class Panel extends Component {
   static propTypes = {
@@ -8,7 +8,7 @@ export default class Panel extends Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.panel} style={this.props.style}>
         {this.props.children}
       </div>
     );

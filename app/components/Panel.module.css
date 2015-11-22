@@ -1,9 +1,8 @@
 .panel {
 	margin: 0px;
+	background: #fff;
 	/*background: #1B2B34;*/
-	background: #eeeeee;
 
-	border-bottom: 1px solid #333;
 	/*color: #A0A0A0;*/
 }
 
