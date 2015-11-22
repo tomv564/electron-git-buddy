@@ -15,7 +15,8 @@ export default class Commit extends Component {
   }
 
   commit() {
-    this.props.commit(this.refs.message.value);
+    this.props.commit(this.state.message);
+    this.setState({message: ''});
   }
 
   render() {
