@@ -85,9 +85,10 @@ export function commitCreated() {
   };
 }
 
-export function stashCreated() {
+export function stashCreated(newStash) {
   return {
-    type: STASH_CREATED
+    type: STASH_CREATED,
+    stash: newStash
   };
 }
 
@@ -240,7 +241,11 @@ export function stash() {
       const signature = Git.Signature.default(repo);
       Git.Stash.save(repo, signature, '', 0).then(oid => {
         console.log('Stash.save resulted in', oid.tostrS());
-        dispatch(stashCreated());
+        const newStash = {
+          message: '',
+          oid: oid
+        };
+        dispatch(stashCreated(newStash));
       });
     });
   };

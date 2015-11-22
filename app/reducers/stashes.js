@@ -6,7 +6,7 @@ export default function stashes(state = [], action) {
   case RECEIVE_STASHES:
     return action.stashes;
   case STASH_CREATED:
-    return state.concat('stash');
+    return state.concat(action.stash);
   case STASH_POPPED:
     if (state.length < 2) return [];
     return state.slice(1);
