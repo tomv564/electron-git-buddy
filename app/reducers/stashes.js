@@ -1,4 +1,4 @@
-import { RECEIVE_STASHES, STASH_CREATED } from '../actions/index';
+import { RECEIVE_STASHES, STASH_CREATED, STASH_POPPED } from '../actions/index';
 
 export default function stashes(state = [], action) {
   switch (action.type) {
