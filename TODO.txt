@@ -2,6 +2,7 @@ Bugs:
 Commit visible if no files staged
 Commit text not cleared after commit
 
+
 Functional features:
 Auto-fetch (with display)
 Visualise remote vs local commits.
@@ -9,6 +10,7 @@ Notify merge issues before pull-rebase.
 Help automatically resolve rebase with working dir.
 External diff
 Detect merge conflicts -> External merge tool
+Squash
 
 
 Tech features:

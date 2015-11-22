@@ -5,6 +5,7 @@ import { Router } from 'react-router';
 import routes from './routes';
 import configureStore from './store/configureStore';
 import './app.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 const store = configureStore();
