@@ -9,6 +9,7 @@ export const WORKINGDIR_CHANGED = 'WORKINGDIR_CHANGED';
 export const PATH_STAGED = 'PATH_STAGED';
 export const PATH_RESET = 'PATH_RESET';
 export const COMMIT_CREATED = 'COMMIT_CREATED';
+export const STASH_CREATED = 'STASH_CREATED';
 
 const FSEVENT_DELAY = 500;
 
@@ -202,7 +203,7 @@ export function resetPath(path) {
   };
 }
 
-export function getStash() {
+export function getStashes() {
   // return dispatch => {
   //   getRepository()
   //     .then(repo => {
@@ -211,6 +212,18 @@ export function getStash() {
   //         .then(result => dispatch(receiveStashes(stashes)));
   //     });
   // };
+}
+export function stash() {
+  return dispatch => {
+    console.log('stashin');
+    getRepository().then(repo => {
+      const signature = Git.Signature.default(repo);
+      Git.Stash.save(repo, signature, '', 0).then(oid => {
+        console.log('Stash.save resulted in', oid.tostrS());
+        dispatch(stashCreated());
+      });
+    });
+  };
 }
 
 export function getStatus() {

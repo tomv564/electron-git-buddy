@@ -2,7 +2,7 @@ Bugs:
 Commit visible if no files staged - DONE
 Commit text not cleared after commit - DONE
 No commit unless text is entered. - DONE
-How to deal with staged file with unstaged changes?
+How to deal with staged file with unstaged changes - DONE
 
 Functional features:
 Stash

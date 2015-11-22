@@ -10,7 +10,7 @@ export default class Stash extends Component {
     return (
       <div >
         <h3>Stash</h3>
-        <p>Number of stashes: {this.props.stash.length}</p>
+        <p>Number of stashes: {stashes.length}</p>
       </div>
     );
   }
@@ -20,13 +20,13 @@ export default class Stash extends Component {
   }
 
   render() {
-    return this.props.stash.length > 0 ?
-            this.renderStashes(this.props.stash) :
+    return this.props.stashes.length > 0 ?
+            this.renderStashes(this.props.stashes) :
             this.renderEmpty();
   }
 }
 
 Stash.propTypes = {
-  stash: PropTypes.array.isRequired
+  stashes: PropTypes.array.isRequired
 };
 

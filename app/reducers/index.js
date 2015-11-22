@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import stash from './stash';
+import stashes from './stashes';
 import changes from './changes';
 import commits from './commits';
 
 const rootReducer = combineReducers({
-  stash,
+  stashes,
   changes,
   commits
 });

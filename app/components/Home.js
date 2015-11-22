@@ -11,14 +11,15 @@ export default class Home extends Component {
   static propTypes = {
     commits: PropTypes.array.isRequired,
     index: PropTypes.array.isRequired,
-    stash: PropTypes.array.isRequired,
+    stashes: PropTypes.array.isRequired,
     getLog: PropTypes.func.isRequired,
     stagePath: PropTypes.func.isRequired,
     resetPath: PropTypes.func.isRequired,
-    getStash: PropTypes.func.isRequired,
+    getStashes: PropTypes.func.isRequired,
     getStatus: PropTypes.func.isRequired,
     startMonitor: PropTypes.func.isRequired,
-    commit: PropTypes.func.isRequired
+    commit: PropTypes.func.isRequired,
+    stash: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -49,7 +50,7 @@ export default class Home extends Component {
           <ButtonGroup bsSize="small">
             <Button onClick={() => this.props.getStatus()}><Glyphicon glyph="refresh"/> Refresh</Button>
             <Button onClick={() => this.props.stagePath('.')}><Glyphicon glyph="check"/> Stage All</Button>
-            <Button><Glyphicon glyph="save"/> Stash</Button>
+            <Button onClick={() => this.props.stash()}><Glyphicon glyph="save"/> Stash</Button>
           </ButtonGroup>
         </TitleBar>
         <div className={styles.content}>
@@ -66,7 +67,7 @@ export default class Home extends Component {
           <h2>Stash</h2>
           <button onClick={() => this.props.getStatus()}>Refresh</button>
         </TitleBar>
-        <Stash stash={this.props.stash} getStash={this.props.getStash}/>
+        <Stash stashes={this.props.stashes} getStash={this.props.getStashes}/>
       </Panel>
     );
   }
