@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import {Input, Button} from 'react-bootstrap';
 
 export default class Commit extends Component {
   static propTypes = {
@@ -12,8 +13,8 @@ export default class Commit extends Component {
   render() {
     return (
         <div>
-          <textarea ref="message" className="fullWidth" rows="3"/>
-          <button onClick={() => this.commit()}>Commit</button>
+          <Input type="textarea" ref="message" placeholder="Enter a commit message..."/>
+          <Button onClick={() => this.commit()}>Commit</Button>
         </div>
       );
   }

@@ -79,6 +79,7 @@
     "postcss-modules-values": "^1.1.1",
     "proxyquire": "^1.7.1",
     "react-addons-test-utils": "^0.14.2",
+    "react-bootstrap": "^0.28.1",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.1.1",

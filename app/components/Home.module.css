@@ -14,41 +14,31 @@
   flex: 1;
   margin: 0px;
   border-bottom: 1px solid #333;
-  color: #A0A0A0;
+  /*color: #A0A0A0;*/
+
 
 }
 
+.content {
+  background: #f6f6f6;
+  padding: 10px;
+
+}
+
+
 .indexPanel {
   flex: 3;
-  margin: 0px;
-  background: #1B2B34;
-  border-bottom: 1px solid #333;
-  color: #A0A0A0;
+  background: #eeeeee;
+  /*border-bottom: 1px solid #333;*/
+  /*color: #A0A0A0;*/
 
 }
 
 .historyPanel {
   flex: 2;
   margin: 0px;
-  background: #1B2B34;
-  border-bottom: 1px solid #333;
-  color: #A0A0A0;
+  /*background: #1B2B34;*/
+  /*border-bottom: 1px solid #333;*/
+  /*color: #A0A0A0;*/
 
-}
-
-.container h2 {
-  font-size: 5rem;
-}
-
-.container a {
-  font-size: 1.4rem;
-}
-
-.content {
-  padding: 10px;
-  font-size: 12px;
-}
-
-.content ul {
-  margin: 0;
 }

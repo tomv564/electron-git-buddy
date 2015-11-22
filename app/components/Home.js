@@ -6,6 +6,7 @@ import Panel from './Panel';
 import TitleBar from './TitleBar';
 import History from './History';
 import Commit from './Commit';
+import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
 
 export default class Home extends Component {
   static propTypes = {
@@ -31,7 +32,7 @@ export default class Home extends Component {
         <TitleBar>
           <h2>History</h2>
           <div className="controls">
-            <button type="button" onClick={() => this.props.getLog()}>Fetch</button>
+            <Button onClick={() => this.props.getLog()}>Fetch</Button>
           </div>
         </TitleBar>
         <div className={styles.content}>
@@ -46,9 +47,11 @@ export default class Home extends Component {
        <Panel key="index" styles={styles.indexPanel}>
         <TitleBar>
           <h2>Index</h2>
-          <button onClick={() => this.props.getStatus()}>Refresh</button>
-          <button>Stage/Unstage</button>
-          <button>Stash</button>
+          <ButtonGroup>
+            <Button onClick={() => this.props.getStatus()}>Refresh</Button>
+            <Button><Glyphicon glyph="check"/> Stage All</Button>
+            <Button>Stash</Button>
+          </ButtonGroup>
         </TitleBar>
         <div className={styles.content}>
           <Index index={this.props.index} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath}/>
@@ -72,7 +75,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const panels = [this.renderHistoryPanel(), this.renderIndexPanel(), this.renderStashPanel()];
+    const panels = [this.renderIndexPanel()];
 
     return (
       <div className={styles.container}>

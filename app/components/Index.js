@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 var path = require('path');
+import {Input} from 'react-bootstrap';
 
 function buildPathTree(items) {
   var tree = { name: '', path: '.', children: []};
@@ -68,16 +69,23 @@ export default class Index extends Component {
     return <input type="checkbox" value={itemPath} checked={isStaged} onClick={() => this.toggleStaged(itemPath, isStaged)}/>;
   }
 
+  renderChildTree(children) {
+    const childItems = children.map((child, index) => this.renderItem(child, index));
+    return (
+      <ul>{childItems}</ul>
+      );
+  }
+
   renderItem(item) {
-    const childItems = item.children ? item.children.map((child, index) => this.renderItem(child, index)) : '';
+    const childItems = item.children ? this.renderChildTree(item.children) : '';
     return (
       <div key={item.path}>
-        {this.renderPathCheckbox(item.path, item.inIndex)}
-        <span title={item.path}>{item.name}</span>
-
-        <ul>
-          {childItems}
-        </ul>
+        <Input type="checkbox"
+               label={item.name}
+               checked={item.inIndex}
+               onClick={() => this.toggleStaged(item.path, item.inIndex)}
+               readOnly />
+        {childItems}
       </div>
       );
   }
@@ -85,6 +93,6 @@ export default class Index extends Component {
   render() {
     const tree = buildPathTree(this.props.index);
 
-    return <div>{tree.children.map(this.renderItem.bind(this))}</div>;
+    return <div className="checkboxTree">{tree.children.map(this.renderItem.bind(this))}</div>;
   }
 }

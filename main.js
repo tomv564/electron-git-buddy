@@ -14,9 +14,8 @@ app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') app.quit();
 });
 
-
 app.on('ready', function() {
-  mainWindow = new BrowserWindow({ width: 1024, height: 728 });
+  mainWindow = new BrowserWindow({ width: 1024, height: 728, 'title-bar-style': 'hidden' });
 
   if (process.env.HOT) {
     mainWindow.loadUrl('file://' + __dirname + '/app/hot-dev-app.html');
