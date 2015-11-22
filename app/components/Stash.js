@@ -39,11 +39,13 @@ export default class StashPanel extends Component {
   }
 
   render() {
+    const hasStashes = this.props.stashes.length > 0;
     return (
       <div>
         <TitleBar>
           <h2>Stashes <Badge>{this.props.stashes.length}</Badge></h2>
-          <Button bsSize="small" onClick={() => console.log('pop')}><Glyphicon glyph="open"/> Pop</Button>
+          {hasStashes ? <Button bsSize="small" onClick={() => console.log('pop')}><Glyphicon glyph="open"/> Pop</Button>
+                      : ''}
         </TitleBar>
       </div>
       );
