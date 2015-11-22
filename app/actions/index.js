@@ -10,6 +10,7 @@ export const PATH_STAGED = 'PATH_STAGED';
 export const PATH_RESET = 'PATH_RESET';
 export const COMMIT_CREATED = 'COMMIT_CREATED';
 export const STASH_CREATED = 'STASH_CREATED';
+export const STASH_POPPED = 'STASH_POPPED';
 
 const FSEVENT_DELAY = 500;
 
@@ -87,6 +88,12 @@ export function commitCreated() {
 export function stashCreated() {
   return {
     type: STASH_CREATED
+  };
+}
+
+export function stashPopped() {
+  return {
+    type: STASH_POPPED
   };
 }
 
@@ -227,6 +234,18 @@ export function stash() {
       Git.Stash.save(repo, signature, '', 0).then(oid => {
         console.log('Stash.save resulted in', oid.tostrS());
         dispatch(stashCreated());
+      });
+    });
+  };
+}
+
+export function popStash() {
+  return dispatch => {
+    console.log('poppin');
+    getRepository().then( repo => {
+      Git.Stash.pop(repo, 0).then( res => {
+        console.log('popped', res);
+        dispatch(stashPopped());
       });
     });
   };
