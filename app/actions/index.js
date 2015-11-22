@@ -10,8 +10,12 @@ export const PATH_STAGED = 'PATH_STAGED';
 export const PATH_RESET = 'PATH_RESET';
 export const COMMIT_CREATED = 'COMMIT_CREATED';
 
+const FSEVENT_DELAY = 500;
+
 const repoPath = '.';
 let repository = undefined;
+
+let refreshTrigger;
 
 function getRepository() {
   if (!repository) {
@@ -26,13 +30,14 @@ let refreshTriggered = false;
 export function startMonitor() {
   return dispatch => {
     startWatcher(repoPath, (event, filePath) => {
-      if (refreshTriggered) return;
-
+      if (refreshTriggered) {
+        global.clearTimeout(refreshTrigger);
+      }
       refreshTriggered = true;
-      setTimeout(() => {
+      refreshTrigger = global.setTimeout(() => {
         refreshTriggered = false;
         dispatch(getStatus());
-      }, 1000);
+      }, FSEVENT_DELAY);
     });
   };
 }

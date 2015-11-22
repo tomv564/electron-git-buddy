@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 var path = require('path');
+import Commit from './Commit';
 import {Input} from 'react-bootstrap';
 
 function buildPathTree(items) {
@@ -14,6 +15,7 @@ function buildPathTree(items) {
     if (dirName === '.') {
       // console.log('adding file', fileName);
       item.name = fileName;
+      item.isStaged = item.inIndex && !item.inWorkingTree;
       node.children.push(item);
     } else {
       const dir = parts.shift();
@@ -30,10 +32,10 @@ function buildPathTree(items) {
 
     // check parent if children all checked.
     if (node.children) {
-      node.inIndex = true;
+      node.isStaged = true;
       node.children.forEach((child) => {
-        if (!child.inIndex) {
-          node.inIndex = false;
+        if (!child.isStaged) {
+          node.isStaged = false;
         }
       });
     }
@@ -45,12 +47,22 @@ function buildPathTree(items) {
   return tree;
 }
 
+function hasStagedFiles(tree) {
+  if (!tree.children) return false;
+  return tree.children.some((item) => {
+    if (item.isStaged) return true;
+    if (hasStagedFiles(item)) return true;
+    return false;
+  });
+}
+
 export default class Index extends Component {
   static propTypes = {
     index: PropTypes.array.isRequired,
     getStatus: PropTypes.func.isRequired,
     stagePath: PropTypes.func.isRequired,
-    resetPath: PropTypes.func.isRequired
+    resetPath: PropTypes.func.isRequired,
+    commit: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -82,8 +94,8 @@ export default class Index extends Component {
       <div key={item.path}>
         <Input type="checkbox"
                label={item.name}
-               checked={item.inIndex}
-               onClick={() => this.toggleStaged(item.path, item.inIndex)}
+               checked={item.isStaged}
+               onClick={() => this.toggleStaged(item.path, item.isStaged)}
                readOnly />
         {childItems}
       </div>
@@ -93,6 +105,18 @@ export default class Index extends Component {
   render() {
     const tree = buildPathTree(this.props.index);
 
-    return <div className="checkboxTree">{tree.children.map(this.renderItem.bind(this))}</div>;
+    const canCommit = hasStagedFiles(tree);
+
+    if (tree.children.length < 1) {
+      return <p>No changes detected</p>;
+    }
+
+    return (<div>
+              <div className="checkboxTree">
+              {tree.children.map(this.renderItem.bind(this))}
+             </div>
+             {canCommit ?
+             <Commit commit={this.props.commit}/> : ''}
+           </div>);
   }
 }

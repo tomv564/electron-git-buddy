@@ -5,7 +5,6 @@ import Index from './Index';
 import Panel from './Panel';
 import TitleBar from './TitleBar';
 import History from './History';
-import Commit from './Commit';
 import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
 
 export default class Home extends Component {
@@ -47,16 +46,14 @@ export default class Home extends Component {
        <Panel key="index" styles={styles.indexPanel}>
         <TitleBar>
           <h2>Index</h2>
-          <ButtonGroup>
-            <Button onClick={() => this.props.getStatus()}>Refresh</Button>
-            <Button><Glyphicon glyph="check"/> Stage All</Button>
-            <Button>Stash</Button>
+          <ButtonGroup bsSize="small">
+            <Button onClick={() => this.props.getStatus()}><Glyphicon glyph="refresh"/> Refresh</Button>
+            <Button onClick={() => this.props.stagePath('.')}><Glyphicon glyph="check"/> Stage All</Button>
+            <Button><Glyphicon glyph="save"/> Stash</Button>
           </ButtonGroup>
         </TitleBar>
         <div className={styles.content}>
-          <Index index={this.props.index} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath}/>
-          <hr/>
-          <Commit commit={this.props.commit}/>
+          <Index index={this.props.index} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath} commit={this.props.commit}/>
         </div>
       </Panel>
     );

@@ -5,6 +5,14 @@ export default class Commit extends Component {
   static propTypes = {
     commit: PropTypes.func.isRequired
   }
+  constructor(props) {
+    super(props);
+    this.state = {message: ''};
+  }
+
+  onChange(e) {
+    this.setState({message: e.target.value});
+  }
 
   commit() {
     this.props.commit(this.refs.message.value);
@@ -13,8 +21,9 @@ export default class Commit extends Component {
   render() {
     return (
         <div>
-          <Input type="textarea" ref="message" placeholder="Enter a commit message..."/>
-          <Button onClick={() => this.commit()}>Commit</Button>
+          <hr/>
+          <Input type="textarea" value={this.state.message} onChange={this.onChange.bind(this)} ref="message" placeholder="Enter a commit message..."/>
+          <Button disabled={this.state.message.length < 1} onClick={() => this.commit()}>Commit</Button>
         </div>
       );
   }
