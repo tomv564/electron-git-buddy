@@ -11,9 +11,11 @@ export const PATH_RESET = 'PATH_RESET';
 export const COMMIT_CREATED = 'COMMIT_CREATED';
 export const STASH_CREATED = 'STASH_CREATED';
 export const STASH_POPPED = 'STASH_POPPED';
+export const REMOTE_FETCHED = 'REMOTE_FETCHED';
+export const REMOTE_PUSHED = 'REMOTE_PUSHED';
 
 const FSEVENT_DELAY = 500;
-
+const DEFAULT_REMOTE = 'origin';
 const repoPath = '.';
 let repository = undefined;
 
@@ -29,6 +31,19 @@ function getRepository() {
 
 let refreshTriggered = false;
 
+function remoteFetched() {
+  return {
+    type: REMOTE_FETCHED
+  };
+}
+
+function remotePushed() {
+  return {
+    type: REMOTE_PUSHED
+  };
+}
+
+
 export function startMonitor() {
   return dispatch => {
     startWatcher(repoPath, (event, filePath) => {
@@ -40,6 +55,55 @@ export function startMonitor() {
         refreshTriggered = false;
         dispatch(getStatus());
       }, FSEVENT_DELAY);
+    });
+  };
+}
+
+export function fetch() {
+  return dispatch => {
+    getRepository().then(repo => {
+      return repo.fetch(DEFAULT_REMOTE, {
+        callbacks: {
+          credentials: function(url, userName) {
+            return Git.Cred.sshKeyFromAgent(userName);
+          },
+          certificateCheck: function() {
+            return 1;
+          }
+        }
+      }).then(res => {
+        console.log('fetch resulted in ', res);
+        dispatch(remoteFetched());
+      })
+      .catch(err => console.log(err));
+    });
+  };
+}
+
+export function push() {
+  return dispatch => {
+    getRepository().then(repo => {
+      return Remote.lookup(repo, DEFAULT_REMOTE)
+        .then(function(remote) {
+          var branch = 'master';
+          var ref = 'refs/heads/' + branch;
+          var refs = [ref + ':' + ref];
+          var options = {
+            callbacks: {
+              credentials: function(url, userName) {
+                return NodeGit.Cred.sshKeyFromAgent(userName);
+              },
+              certificateCheck: function() {
+                return 1;
+              }
+            }
+          };
+          return remote.push(refs, options);
+        }).then(result => {
+          console.log('push:', result);
+          dispatch(remotePushed());
+        })
+        .catch(err => console.log(err));
     });
   };
 }

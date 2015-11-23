@@ -5,7 +5,10 @@ No commit unless text is entered. - DONE
 How to deal with staged file with unstaged changes - DONE
 
 Functional features:
-Stash
+Stash create - DONE
+Stash pop - DONE
+git push
+git pull
 Auto-fetch (with display)
 Visualise remote vs local commits.
 Notify merge issues before pull-rebase.
@@ -14,9 +17,6 @@ External diff
 Detect merge conflicts -> External merge tool
 Squash
 Discard all
-
-
-
 
 "New commits are available from the {} remote, use fetch to retrieve them"
 

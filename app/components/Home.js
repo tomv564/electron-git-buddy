@@ -20,6 +20,8 @@ export default class Home extends Component {
     startMonitor: PropTypes.func.isRequired,
     commit: PropTypes.func.isRequired,
     stash: PropTypes.func.isRequired,
+    fetch: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
     popStash: PropTypes.func.isRequired
   }
 
@@ -31,14 +33,13 @@ export default class Home extends Component {
     return (
       <Panel key="history" styles={styles.historyPanel}>
         <TitleBar>
-          <h2>History</h2>
-          <div className="controls">
-            <Button onClick={() => this.props.getLog()}>Fetch</Button>
-          </div>
+          <h2>Commits</h2>
+          <ButtonGroup bsSize="small">
+            <Button onClick={() => this.props.fetch()}><Glyphicon glyph="cloud-download"/> Fetch</Button>
+            <Button onClick={() => console.log('rebase')}><Glyphicon glyph="transfer"/> Rebase</Button>
+            <Button onClick={() => this.props.push()}><Glyphicon glyph="cloud-upload"/> Push</Button>
+          </ButtonGroup>
         </TitleBar>
-        <div className={styles.content}>
-          <History commits={this.props.commits} getLog={this.props.getLog}/>
-        </div>
       </Panel>
     );
   }
@@ -72,7 +73,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const panels = [this.renderIndexPanel(), this.renderStashPanel()];
+    const panels = [this.renderHistoryPanel(), this.renderIndexPanel(), this.renderStashPanel()];
 
     return (
       <div className={styles.container}>
