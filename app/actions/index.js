@@ -83,7 +83,7 @@ export function fetch() {
 export function push() {
   return dispatch => {
     getRepository().then(repo => {
-      return Remote.lookup(repo, DEFAULT_REMOTE)
+      return Git.Remote.lookup(repo, DEFAULT_REMOTE)
         .then(function(remote) {
           var branch = 'master';
           var ref = 'refs/heads/' + branch;
@@ -91,7 +91,7 @@ export function push() {
           var options = {
             callbacks: {
               credentials: function(url, userName) {
-                return NodeGit.Cred.sshKeyFromAgent(userName);
+                return Git.Cred.sshKeyFromAgent(userName);
               },
               certificateCheck: function() {
                 return 1;
