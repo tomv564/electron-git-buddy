@@ -1,51 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-var path = require('path');
 import Commit from './Commit';
 import {Input} from 'react-bootstrap';
-
-function buildPathTree(items) {
-  var tree = { name: '', path: '.', children: []};
-
-  function addItem(node, item, remainingPath) {
-    const fileName = path.basename(item.path);
-    const dirName = path.dirname(remainingPath || item.path);
-    const parts = dirName.split(path.sep);
-
-    // simplest - no dirs remaining.
-    if (dirName === '.') {
-      // console.log('adding file', fileName);
-      item.name = fileName;
-      item.isStaged = item.inIndex && !item.inWorkingTree;
-      node.children.push(item);
-    } else {
-      const dir = parts.shift();
-      let dirNode = node.children.find(n => n.name === dir);
-      if (!dirNode) {
-        dirNode = {name: dir, path: node.path + path.sep + dir, children: []};
-        node.children.push(dirNode);
-      }
-
-      const restOfPath = parts.length === 0 ? fileName : parts.join(path.sep) + path.sep + fileName;
-      addItem(dirNode, item, restOfPath);
-      // console.log(node);
-    }
-
-    // check parent if children all checked.
-    if (node.children) {
-      node.isStaged = true;
-      node.children.forEach((child) => {
-        if (!child.isStaged) {
-          node.isStaged = false;
-        }
-      });
-    }
-  }
-
-  // debugger;
-  items.map(item => addItem(tree, item));
-
-  return tree;
-}
 
 function hasStagedFiles(tree) {
   if (!tree.children) return false;
@@ -58,7 +13,7 @@ function hasStagedFiles(tree) {
 
 export default class Index extends Component {
   static propTypes = {
-    index: PropTypes.array.isRequired,
+    workingTree: PropTypes.object.isRequired,
     getStatus: PropTypes.func.isRequired,
     stagePath: PropTypes.func.isRequired,
     resetPath: PropTypes.func.isRequired,
@@ -103,8 +58,7 @@ export default class Index extends Component {
   }
 
   render() {
-    const tree = buildPathTree(this.props.index);
-
+    const tree = this.props.workingTree;
     const canCommit = hasStagedFiles(tree);
 
     if (tree.children.length < 1) {

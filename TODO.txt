@@ -4,22 +4,28 @@ Commit text not cleared after commit - DONE
 No commit unless text is entered. - DONE
 How to deal with staged file with unstaged changes - DONE
 
+Optimistic UI! - IN PROGRESS
+Show loading states.
+
 Functional features:
 Stash create - DONE
 Stash pop - DONE
 git push
 git pull
 Auto-fetch (with display)
+"New commits are available from the {} remote, use fetch to retrieve them"
+
 Visualise remote vs local commits.
+
 Notify merge issues before pull-rebase.
+--autostash rebase!
 Help automatically resolve rebase with working dir.
+
 External diff
+internal diff
 Detect merge conflicts -> External merge tool
 Squash
 Discard all
-
-"New commits are available from the {} remote, use fetch to retrieve them"
-
 
 Tech features:
 Error messages not shown
@@ -27,9 +33,10 @@ Keyboard navigation
 
 
 Design:
-Consistent UI controls
+Consistent UI controls - DONE
 Checkboxes
 Collapsible panels
+
 
 Long shot:
 packaging

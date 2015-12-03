@@ -1,33 +1,31 @@
-import Git from 'nodegit';
 import {startWatcher} from '../api/FsApi';
+import * as GitApi from '../api/GitApi';
+require('promise.prototype.finally');
 
-export const REFRESH_INDEX = 'REFRESH_INDEX';
+// workingTree: only receive_status used.
 export const RECEIVE_STATUS = 'RECEIVE_STATUS';
-export const RECEIVE_STASHES = 'RECEIVE_STASHES';
-export const RECEIVE_COMMITS = 'RECEIVE_COMMITS';
-export const WORKINGDIR_CHANGED = 'WORKINGDIR_CHANGED';
+// workingTree unused
 export const PATH_STAGED = 'PATH_STAGED';
 export const PATH_RESET = 'PATH_RESET';
 export const COMMIT_CREATED = 'COMMIT_CREATED';
+
+// stashes- all used but misses external updates!
+export const RECEIVE_STASHES = 'RECEIVE_STASHES';
 export const STASH_CREATED = 'STASH_CREATED';
 export const STASH_POPPED = 'STASH_POPPED';
+
+// commits
+export const RECEIVE_COMMITS = 'RECEIVE_COMMITS';
+// commits not used.
 export const REMOTE_FETCHED = 'REMOTE_FETCHED';
 export const REMOTE_PUSHED = 'REMOTE_PUSHED';
 
 const FSEVENT_DELAY = 500;
-const DEFAULT_REMOTE = 'origin';
 const repoPath = '.';
-let repository = undefined;
+
+GitApi.getRepository(repoPath);
 
 let refreshTrigger;
-
-function getRepository() {
-  if (!repository) {
-    repository = Git.Repository.open(repoPath);
-  }
-
-  return Promise.resolve(repository);
-}
 
 let refreshTriggered = false;
 
@@ -43,13 +41,17 @@ function remotePushed() {
   };
 }
 
+let fsEventsEnabled = true;
 
 export function startMonitor() {
   return dispatch => {
-    startWatcher(repoPath, (event, filePath) => {
+    startWatcher(repoPath, () => {
       if (refreshTriggered) {
         global.clearTimeout(refreshTrigger);
       }
+
+      if (!fsEventsEnabled) return;
+
       refreshTriggered = true;
       refreshTrigger = global.setTimeout(() => {
         refreshTriggered = false;
@@ -59,80 +61,31 @@ export function startMonitor() {
   };
 }
 
+function muteFsEvents() {
+  fsEventsEnabled = false;
+}
+
+function unMuteFsEvents() {
+  fsEventsEnabled = true;
+}
+
 export function fetch() {
   return dispatch => {
-    getRepository().then(repo => {
-      return repo.fetch(DEFAULT_REMOTE, {
-        callbacks: {
-          credentials: function(url, userName) {
-            return Git.Cred.sshKeyFromAgent(userName);
-          },
-          certificateCheck: function() {
-            return 1;
-          }
-        }
-      }).then(res => {
-        console.log('fetch resulted in ', res);
-        dispatch(remoteFetched());
-      })
-      .catch(err => console.log(err));
-    });
+    GitApi.fetch()
+      .then(() => dispatch(remoteFetched()));
   };
 }
 
 export function push() {
   return dispatch => {
-    getRepository().then(repo => {
-      return Git.Remote.lookup(repo, DEFAULT_REMOTE)
-        .then(function(remote) {
-          var branch = 'master';
-          var ref = 'refs/heads/' + branch;
-          var refs = [ref + ':' + ref];
-          var options = {
-            callbacks: {
-              credentials: function(url, userName) {
-                return Git.Cred.sshKeyFromAgent(userName);
-              },
-              certificateCheck: function() {
-                return 1;
-              }
-            }
-          };
-          return remote.push(refs, options);
-        }).then(result => {
-          console.log('push:', result);
-          dispatch(remotePushed());
-        })
-        .catch(err => console.log(err));
-    });
-  };
-}
-
-export function refreshIndex() {
-  return {
-    type: REFRESH_INDEX
+    GitApi.push()
+      .then(() => dispatch(remotePushed()));
   };
 }
 
 export function workingDirChanged() {
   return {
     type: WORKINGDIR_CHANGED
-  };
-}
-
-export function remoteFetched() {
-  return {
-    type: REMOTE_FETCHED
-  };
-}
-
-export function gitFetch() {
-  return dispatch => {
-    getRepository().then(
-      repo => {
-        repo.fetch('origin');
-        dispatch(remoteFetched());
-      });
   };
 }
 
@@ -164,55 +117,17 @@ export function stashPopped() {
 
 export function commit(text) {
   return dispatch => {
-    getRepository()
-      .then(repo => repo.getHeadCommit()
-        .then(head => {
-          repo.openIndex()
-          .then(index => index.writeTree())
-          .then(oid => {
-            const signature = Git.Signature.default(repo);
-            repo.createCommit('HEAD', signature, signature,
-            text, oid, [head]).then(newOid => {
-              console.log('create commit resulted in ', newOid.tostrS());
-            });
-            dispatch(commitCreated());
-          }).catch(error => {
-            console.log(error);
-          });
-        }));
+    GitApi.commit(text)
+      .then(() => dispatch(commitCreated));
   };
 }
 
 export function getLog() {
   return dispatch => {
-    getRepository().then(
-      repo => repo.getHeadCommit()
-      ).then(
-      head => {
-        if (!head) {
-          dispatch(receiveCommits([]));
-          return;
-        }
-        var history = head.history();
-        var commits = [];
-        var parseCommit = commit => {
-          if (commits.length > 5) return;
-          var author = commit.author();
-          commits.push({
-            authorName: author.name(),
-            authorMail: author.email(),
-            date: commit.date(),
-            message: commit.message(),
-            sha: commit.sha()
-          });
-        };
-        history.on('commit', parseCommit);
-        history.on('end', () => dispatch(receiveCommits(commits)));
-        history.start();
-      });
+    GitApi.getLog()
+      .then(commits => dispatch(receiveCommits(commits)));
   };
 }
-
 
 export function receiveStatus(statuses) {
   return {
@@ -243,100 +158,49 @@ export function pathReset(path) {
 }
 
 export function stagePath(path) {
-
-  const pathSpec = path.slice(2);
+  //const pathSpec = path.slice(2);
   return dispatch => {
-    getRepository()
-      .then(repo => repo.openIndex())
-      .then(index => {
-        // index.read(1); // TODO: why?
-        // let result = index.addByPath(path);
-        index.addAll(pathSpec).then(result => {
-          console.log('index.addbypath', pathSpec, 'resulted in', result);
-          const writeResult = index.write();
-          console.log('index.write resulted in', writeResult);
-          dispatch(pathStaged(path));
-        }).catch(error => {
-          console.log(error);
-        });
-      });
+    muteFsEvents();
+    GitApi.stagePath(path)
+      .then(() => dispatch(getStatus()))
+      .catch(error => console.warn(error))
+      .finally(() => unMuteFsEvents());
   };
 }
 
 export function resetPath(path) {
-  const pathSpec = path.slice(2);
+  //const pathSpec = path.slice(2);
   return dispatch => {
-    getRepository()
-      .then(repo => {
-        repo.getHeadCommit().then(head => {
-          Git.Reset.default(repo, head, pathSpec)
-            .then(result => {
-              console.log('reset.default HEAD', pathSpec, 'resulted in', result);
-              dispatch(pathReset(path));
-            }).catch(error => {
-              console.log(error);
-            });
-        });
-      });
+    muteFsEvents();
+    GitApi.resetPath(path)
+      .then(() => dispatch(pathReset(path)))
+      .finally(() => unMuteFsEvents());
   };
 }
 
 export function getStashes() {
   return dispatch => {
-    console.log('get stashes!');
-    getRepository()
-      .then(repo => {
-        var stashes = [];
-        var collect = function(index, message, oid) {
-          stashes.push({index: index, message: message, oid: oid});
-        };
-        Git.Stash.foreach(repo, collect)
-          .then(result => {
-            console.log(result, stashes);
-            dispatch(receiveStashes(stashes));
-          });
-      });
+    GitApi.getStashes()
+      .then(stashes => dispatch(receiveStashes(stashes)));
   };
 }
 export function stash() {
   return dispatch => {
-    console.log('stashin');
-    getRepository().then(repo => {
-      const signature = Git.Signature.default(repo);
-      Git.Stash.save(repo, signature, '', 0).then(oid => {
-        console.log('Stash.save resulted in', oid.tostrS());
-        const newStash = {
-          message: '',
-          oid: oid
-        };
-        dispatch(stashCreated(newStash));
-      });
-    });
+    GitApi.stash()
+      .then(newStash => dispatch(stashCreated(newStash)));
   };
 }
 
 export function popStash() {
   return dispatch => {
-    console.log('poppin');
-    getRepository().then( repo => {
-      Git.Stash.pop(repo, 0).then( res => {
-        console.log('popped', res);
-        dispatch(stashPopped());
-      });
-    });
+    GitApi.popStash()
+      .then(() => dispatch(stashPopped()));
   };
 }
 
 export function getStatus() {
   return dispatch => {
-    // notify start loading here
-    // dispatch(refreshingIndex());
-    // actual loading
-    // TODO: error handling.
-    getRepository()
-      .then(repo => {
-        repo.getStatus()
-          .then(status => dispatch(receiveStatus(status)));
-      });
+    GitApi.getStatus()
+      .then(status => dispatch(receiveStatus(status)));
   };
 }
