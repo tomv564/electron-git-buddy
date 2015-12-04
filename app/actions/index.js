@@ -158,7 +158,6 @@ export function pathReset(path) {
 }
 
 export function stagePath(path) {
-  //const pathSpec = path.slice(2);
   return dispatch => {
     muteFsEvents();
     GitApi.stagePath(path)
@@ -169,11 +168,11 @@ export function stagePath(path) {
 }
 
 export function resetPath(path) {
-  //const pathSpec = path.slice(2);
+  const pathSpec = path.slice(2);
   return dispatch => {
     muteFsEvents();
-    GitApi.resetPath(path)
-      .then(() => dispatch(pathReset(path)))
+    GitApi.resetPath(pathSpec)
+      .then(() => dispatch(getStatus()))
       .finally(() => unMuteFsEvents());
   };
 }
