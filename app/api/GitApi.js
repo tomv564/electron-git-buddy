@@ -111,7 +111,7 @@ export function getLog() {
             var history = head.history();
             var commits = [];
             var parseCommit = commit => {
-              if (commits.length > 5) return;
+              if (commits.length > 2) return;
               var author = commit.author();
               commits.push({
                 authorName: author.name(),

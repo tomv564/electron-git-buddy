@@ -27,11 +27,9 @@ export default class History extends Component {
 
   render() {
     return (
-      <div>
-        <table>
-          <tbody>{this.props.commits.map(this.renderCommit.bind(this))}</tbody>
-        </table>
-      </div>
+      <table>
+        <tbody>{this.props.commits.map(this.renderCommit.bind(this))}</tbody>
+      </table>
     );
   }
 }

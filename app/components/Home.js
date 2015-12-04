@@ -3,6 +3,7 @@ import styles from './Home.module.css';
 import StashPanel from './Stash';
 import Index from './Index';
 import Panel from './Panel';
+import History from './History';
 import TitleBar from './TitleBar';
 import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
 
@@ -39,6 +40,9 @@ export default class Home extends Component {
             <Button onClick={() => this.props.push()}><Glyphicon glyph="cloud-upload"/> Push</Button>
           </ButtonGroup>
         </TitleBar>
+        <div className={styles.content}>
+          <History commits={this.props.commits} getLog={this.props.getLog}/>
+        </div>
       </Panel>
     );
   }
@@ -54,7 +58,7 @@ export default class Home extends Component {
             <Button onClick={() => this.props.stash()}><Glyphicon glyph="save"/> Stash</Button>
           </ButtonGroup>
         </TitleBar>
-        <div className={styles.content}>
+        <div className={styles.fullContent}>
           <Index workingTree={this.props.workingTree} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath} commit={this.props.commit}/>
         </div>
       </Panel>

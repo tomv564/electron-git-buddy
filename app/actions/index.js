@@ -168,7 +168,12 @@ export function stagePath(path) {
 }
 
 export function resetPath(path) {
-  const pathSpec = path.slice(2);
+  let pathSpec = path;
+  if (path.indexOf('./') === 0) {
+    pathSpec = path.slice(2);
+    console.log(path);
+  }
+  // const pathSpec = path.slice(2);
   return dispatch => {
     muteFsEvents();
     GitApi.resetPath(pathSpec)
