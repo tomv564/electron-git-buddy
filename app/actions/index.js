@@ -193,15 +193,25 @@ export function getStashes() {
 }
 export function stash() {
   return dispatch => {
+    muteFsEvents();
     GitApi.stash()
-      .then(newStash => dispatch(stashCreated(newStash)));
+      .then(newStash => {
+        dispatch(stashCreated(newStash));
+        dispatch(getStatus());
+      })
+      .finally(() => unMuteFsEvents());
   };
 }
 
 export function popStash() {
   return dispatch => {
+    muteFsEvents();
     GitApi.popStash()
-      .then(() => dispatch(stashPopped()));
+      .then(() => {
+        dispatch(stashPopped());
+        dispatch(getStatus());
+      })
+      .finally(() => unMuteFsEvents());
   };
 }
 
