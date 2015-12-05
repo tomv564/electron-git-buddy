@@ -79,7 +79,7 @@ export function popStash() {
 }
 
 
-export function commit(text) {
+export function createCommit(text) {
   return getRepository()
     .then(repo => repo.getHeadCommit()
       .then(head => {
@@ -97,38 +97,67 @@ export function commit(text) {
       }));
 }
 
+function parseCommit(commit) {
+  var author = commit.author();
+  return {
+    authorName: author.name(),
+    authorMail: author.email(),
+    date: commit.date(),
+    message: commit.message(),
+    sha: commit.sha()
+  };
+}
+
+function readHistory(head) {
+  return new Promise(
+    (resolve) => {
+      var history = head.history();
+      var commits = [];
+
+      var collect = commit => {
+        commits.push(parseCommit(commit));
+      };
+
+      history.on('commit', collect);
+      history.on('end', () => resolve(commits));
+      history.start();
+    });
+}
+
 export function getLog() {
   const promise = new Promise(
-    (resolve, reject) => {
+    (resolve) => {
       getRepository()
         .then(repo => repo.getHeadCommit())
         .then(
           head => {
             if (!head) {
               resolve([]);
-              return;
+            } else {
+              resolve(readHistory(head));
             }
-            var history = head.history();
-            var commits = [];
-            var parseCommit = commit => {
-              if (commits.length > 2) return;
-              var author = commit.author();
-              commits.push({
-                authorName: author.name(),
-                authorMail: author.email(),
-                date: commit.date(),
-                message: commit.message(),
-                sha: commit.sha()
-              });
-            };
-            history.on('commit', parseCommit);
-            history.on('end', () => resolve(commits));
-            history.start();
           }
         );
     }
   );
   return promise;
+}
+
+export function getRemoteLog() {
+  return new Promise(
+    (resolve) => {
+      getRepository()
+        .then(repo => repo.getReferenceCommit('origin'))
+        .then(
+          remoteHead => {
+            if (!remoteHead) {
+              resolve([]);
+            } else {
+              resolve(readHistory(remoteHead));
+            }
+          });
+    }
+  );
 }
 
 export function fetch() {

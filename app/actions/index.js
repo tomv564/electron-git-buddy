@@ -4,10 +4,6 @@ require('promise.prototype.finally');
 
 // workingTree: only receive_status used.
 export const RECEIVE_STATUS = 'RECEIVE_STATUS';
-// workingTree unused
-export const PATH_STAGED = 'PATH_STAGED';
-export const PATH_RESET = 'PATH_RESET';
-export const COMMIT_CREATED = 'COMMIT_CREATED';
 
 // stashes- all used but misses external updates!
 export const RECEIVE_STASHES = 'RECEIVE_STASHES';
@@ -16,6 +12,7 @@ export const STASH_POPPED = 'STASH_POPPED';
 
 // commits
 export const RECEIVE_COMMITS = 'RECEIVE_COMMITS';
+export const RECEIVE_REMOTE_COMMITS = 'RECEIVE_REMOTE_COMMITS';
 // commits not used.
 export const REMOTE_FETCHED = 'REMOTE_FETCHED';
 export const REMOTE_PUSHED = 'REMOTE_PUSHED';
@@ -72,7 +69,8 @@ function unMuteFsEvents() {
 export function fetch() {
   return dispatch => {
     GitApi.fetch()
-      .then(() => dispatch(remoteFetched()));
+      .then(() => GitApi.getRemoteLog())
+      .then(commits => dispatch(receiveRemoteCommits(commits)));
   };
 }
 
@@ -92,6 +90,13 @@ export function workingDirChanged() {
 export function receiveCommits(commits) {
   return {
     type: RECEIVE_COMMITS,
+    commits: commits
+  };
+}
+
+export function receiveRemoteCommits(commits) {
+  return {
+    type: RECEIVE_REMOTE_COMMITS,
     commits: commits
   };
 }
@@ -117,7 +122,7 @@ export function stashPopped() {
 
 export function commit(text) {
   return dispatch => {
-    GitApi.commit(text)
+    GitApi.createCommit(text)
       .then(() => dispatch(commitCreated));
   };
 }
@@ -126,6 +131,8 @@ export function getLog() {
   return dispatch => {
     GitApi.getLog()
       .then(commits => dispatch(receiveCommits(commits)));
+    GitApi.getRemoteLog()
+      .then(commits => dispatch(receiveRemoteCommits(commits)));
   };
 }
 
@@ -140,20 +147,6 @@ export function receiveStashes(stashes) {
   return {
     type: RECEIVE_STASHES,
     stashes: stashes
-  };
-}
-
-export function pathStaged(path) {
-  return {
-    type: PATH_STAGED,
-    path: path
-  };
-}
-
-export function pathReset(path) {
-  return {
-    type: PATH_RESET,
-    path: path
   };
 }
 

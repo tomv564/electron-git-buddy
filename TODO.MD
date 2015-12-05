@@ -14,6 +14,9 @@ Help automatically resolve rebase with working dir.
 External diff
 internal diff
 Detect merge conflicts -> External merge tool
+
+ * "Error: Cannot push non-fastforwardable reference"
+
 Squash
 Discard all
 Error messages not shown

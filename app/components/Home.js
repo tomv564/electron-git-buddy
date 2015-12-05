@@ -5,11 +5,11 @@ import Index from './Index';
 import Panel from './Panel';
 import History from './History';
 import TitleBar from './TitleBar';
-import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap';
+import {Button, ButtonGroup, Glyphicon, Badge} from 'react-bootstrap';
 
 export default class Home extends Component {
   static propTypes = {
-    commits: PropTypes.array.isRequired,
+    commits: PropTypes.object.isRequired,
     workingTree: PropTypes.object.isRequired,
     stashes: PropTypes.array.isRequired,
     getLog: PropTypes.func.isRequired,
@@ -33,7 +33,14 @@ export default class Home extends Component {
     return (
       <Panel key="history" styles={styles.historyPanel}>
         <TitleBar>
-          <h2>Commits</h2>
+          <div className={styles.panelTitleWrapper}>
+            <h2>Commits</h2>
+            <div className={styles.panelTitleContent}>
+              <span>Branch: master</span>
+              <span>Local: <Badge>{this.props.commits.count.localOnly}</Badge></span>
+              <span>Remote: <Badge>{this.props.commits.count.remoteOnly}</Badge></span>
+            </div>
+          </div>
           <ButtonGroup bsSize="small">
             <Button onClick={() => this.props.fetch()}><Glyphicon glyph="cloud-download"/> Fetch</Button>
             <Button onClick={() => console.log('rebase')}><Glyphicon glyph="transfer"/> Rebase</Button>
