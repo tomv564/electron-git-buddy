@@ -13,9 +13,7 @@ export const STASH_POPPED = 'STASH_POPPED';
 // commits
 export const RECEIVE_COMMITS = 'RECEIVE_COMMITS';
 export const RECEIVE_REMOTE_COMMITS = 'RECEIVE_REMOTE_COMMITS';
-// commits not used.
-export const REMOTE_FETCHED = 'REMOTE_FETCHED';
-export const REMOTE_PUSHED = 'REMOTE_PUSHED';
+
 
 const FSEVENT_DELAY = 500;
 const repoPath = '.';
@@ -25,12 +23,6 @@ GitApi.getRepository(repoPath);
 let refreshTrigger;
 
 let refreshTriggered = false;
-
-function remotePushed() {
-  return {
-    type: REMOTE_PUSHED
-  };
-}
 
 let fsEventsEnabled = true;
 
@@ -76,22 +68,21 @@ function unMuteFsEvents() {
 
 export function fetch() {
   return dispatch => {
+    muteFsEvents();
     GitApi.fetch()
       .then(() => GitApi.getRemoteLog())
-      .then(commits => dispatch(receiveRemoteCommits(commits)));
+      .then(commits => dispatch(receiveRemoteCommits(commits)))
+      .finally(() => unMuteFsEvents());
   };
 }
 
 export function push() {
   return dispatch => {
+    muteFsEvents();
     GitApi.push()
-      .then(() => dispatch(remotePushed()));
-  };
-}
-
-export function workingDirChanged() {
-  return {
-    type: WORKINGDIR_CHANGED
+      .then(() => GitApi.getRemoteLog())
+      .then(commits => dispatch(receiveRemoteCommits(commits)))
+      .finally(() => unMuteFsEvents());
   };
 }
 
