@@ -22,6 +22,7 @@ export default class Home extends Component {
     stash: PropTypes.func.isRequired,
     fetch: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
+    diff: PropTypes.func.isRequired,
     popStash: PropTypes.func.isRequired
   }
 
@@ -67,7 +68,7 @@ export default class Home extends Component {
           </ButtonGroup>
         </TitleBar>
         <div className={styles.fullContent}>
-          <Index workingTree={this.props.workingTree} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath} commit={this.props.commit}/>
+          <Index workingTree={this.props.workingTree} diff={this.props.diff} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath} commit={this.props.commit}/>
         </div>
       </Panel>
     );

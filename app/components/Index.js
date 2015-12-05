@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Commit from './Commit';
-import {Input} from 'react-bootstrap';
+import {Input, Glyphicon} from 'react-bootstrap';
 
 function hasStagedFiles(tree) {
   if (!tree.children) return false;
@@ -17,7 +17,8 @@ export default class Index extends Component {
     getStatus: PropTypes.func.isRequired,
     stagePath: PropTypes.func.isRequired,
     resetPath: PropTypes.func.isRequired,
-    commit: PropTypes.func.isRequired
+    commit: PropTypes.func.isRequired,
+    diff: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -44,15 +45,20 @@ export default class Index extends Component {
   }
 
   renderItem(item) {
-    const childItems = item.children ? this.renderChildTree(item.children) : '';
+    const childTree = item.children ? this.renderChildTree(item.children) : '';
+
     return (
       <div key={item.path}>
-        <Input type="checkbox"
+        <div style={{display: 'flex', 'flexDirection': 'row'}}>
+          <Input type="checkbox"
                label={item.name}
                checked={item.isStaged}
                onClick={() => this.toggleStaged(item.path, item.isStaged)}
                readOnly />
-        {childItems}
+
+          { item.children ? '' : <a style={{paddingLeft: 5}} href='' onClick={() => this.props.diff(item.path)}><Glyphicon style={{ color: '#999'}} glyph="eye-open"/></a> }
+        </div>
+        {childTree}
       </div>
       );
   }

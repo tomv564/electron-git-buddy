@@ -1,18 +1,10 @@
 ## IN PROGRESS ##
 
-Optimistic UI - IN PROGRESS
+As a user I can open a diff in my git difftool from the staging view
 
-* Staging - DONE
-* Committing
-* Fetching
-* Pushing
-* Stashing - DONE
-
-Visualise remote vs local commits. IN PROGRESS
-
-* Local commits are refreshed when committing
-* Initial loading is working
-* State is refreshed after pushing
+* Add diff links to files
+* Add diff action that logs 
+* Hook up diff action to nodegit difftool
 
 ## BACKLOG ##
 
@@ -28,11 +20,6 @@ As a user I receive notifications of automatically retrieved commitsAuto-fetch (
 
 * "New commits are available from the {} remote, use fetch to retrieve them"
 
-As a user I can open a diff in my git difftool from the staging view
-
-* Add diff links to files
-* Add diff action that logs 
-* Hook up diff action to nodegit difftool
 
 ### To Plan
 
@@ -53,6 +40,20 @@ As a user I can open a diff in my git difftool from the staging view
 * Packaging for OS-X
 
 ## DONE ##
+
+Optimistic UI - DONE
+
+* Staging - DONE
+* Committing - DONE
+* Fetching - PARTIAL
+* Pushing - DONE
+* Stashing - DONE
+
+Visualise remote vs local commits. DONE
+
+* Local commits are refreshed when committing - DONE
+* Initial loading is working - DONE
+* State is refreshed after pushing - DONE
 
 * BUG: review reloading of commits on staging events
     - Would require shouldComponentUpdate (react-pure-render)

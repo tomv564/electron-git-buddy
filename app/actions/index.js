@@ -1,6 +1,7 @@
 import {startWatcher} from '../api/FsApi';
 import * as GitApi from '../api/GitApi';
 require('promise.prototype.finally');
+import * as cp from 'child_process';
 
 // workingTree: only receive_status used.
 export const RECEIVE_STATUS = 'RECEIVE_STATUS';
@@ -73,6 +74,14 @@ export function fetch() {
       .then(() => GitApi.getRemoteLog())
       .then(commits => dispatch(receiveRemoteCommits(commits)))
       .finally(() => unMuteFsEvents());
+  };
+}
+
+export function diff(filePath) {
+  cp.spawn('git', ['difftool', filePath]);
+  return {
+    type: 'DIFF_REQUESTED',
+    filePath: filePath
   };
 }
 
