@@ -1,18 +1,8 @@
-# electron-react-boilerplate
+# electron-git-buddy
 
-[![NPM version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Dependency Status][david_img]][david_site]
+> Git UI for the commandline-oriented developer
 
-![](./erb-logo.png)
-
-> Live editing development on desktop app
-
-[Electron](http://electron.atom.io/) application boilerplate based on [React](https://facebook.github.io/react/), [Redux](https://github.com/rackt/redux), [React Router](https://github.com/rackt/react-router), [Webpack](http://webpack.github.io/docs/), [React Trasform HMR](https://github.com/gaearon/react-transform-hmr) for rapid application development
-
-## Screenshot
-
-![](https://cloud.githubusercontent.com/assets/3382565/10557547/b1f07a4e-74e3-11e5-8d27-79ab6947d429.gif)
+An [electron](http://electron.atom.io/) application boilerplate based on [React](https://facebook.github.io/react/), [Redux](https://github.com/rackt/redux), [React Router](https://github.com/rackt/react-router), [Webpack](http://webpack.github.io/docs/), [React Trasform HMR](https://github.com/gaearon/react-transform-hmr) for rapid application development
 
 ## Install
 
@@ -95,11 +85,6 @@ We add some module's `peerDependencies` to ignore option as default for applicat
 #### Building windows apps from non-windows platforms
 
 Please checkout [Building windows apps from non-windows platforms](https://github.com/maxogden/electron-packager#building-windows-apps-from-non-windows-platforms).
-
-
-## Native-like UI
-
-If you want to have native-like User Interface (OS X El Capitan and Windows 10), [react-desktop](https://github.com/gabrielbull/react-desktop) may perfect suit for you.
 
 
 ## License
