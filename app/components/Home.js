@@ -42,6 +42,7 @@ export default class Home extends Component {
             </div>
           </div>
           <ButtonGroup bsSize="small">
+            <Button onClick={() => this.props.getLog()}><Glyphicon glyph="refresh"/> Refresh</Button>
             <Button onClick={() => this.props.fetch()}><Glyphicon glyph="cloud-download"/> Fetch</Button>
             <Button onClick={() => console.log('rebase')}><Glyphicon glyph="transfer"/> Rebase</Button>
             <Button onClick={() => this.props.push()}><Glyphicon glyph="cloud-upload"/> Push</Button>

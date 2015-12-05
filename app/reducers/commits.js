@@ -2,13 +2,14 @@ import { RECEIVE_COMMITS, RECEIVE_REMOTE_COMMITS } from '../actions/index';
 
 
 function updateCommits(original, updates, source) {
+  const updated = Object.assign({}, original);
   updates.forEach(commit => {
     commit[source] = true;
-    original.items[commit.sha] = Object.assign(original.items[commit.sha] || {}, commit);
+    updated.items[commit.sha] = Object.assign(updated.items[commit.sha] || {}, commit);
     if (commit.sha.indexOf('f0e') === 0) console.log(commit.sha);
   });
 
-  return original;
+  return updated;
 }
 
 function updateCounts(updated) {

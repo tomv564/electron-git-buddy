@@ -142,10 +142,10 @@ export function commit(text) {
 
 export function getLog() {
   return dispatch => {
-    console.log('reading local commits');
+    console.log('getting local commits');
     GitApi.getLog()
       .then(commits => dispatch(receiveCommits(commits)));
-    console.log('reading remote commits');
+    console.log('getting remote commits');
     GitApi.getRemoteLog()
       .then(commits => dispatch(receiveRemoteCommits(commits)));
   };

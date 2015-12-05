@@ -44,7 +44,7 @@ export default class History extends Component {
 
   render() {
     const values = Object.keys(this.props.commits.items).map(key => this.props.commits.items[key]);
-    console.log('rendering', values.length);
+    console.log('rendering History', values.length);
     const latest = values.sort(compareDateDesc).slice(0, 5);
     // debugger;
     return (
