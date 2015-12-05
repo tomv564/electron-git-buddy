@@ -5,6 +5,12 @@ function emptyTree() {
   return { name: '', path: '.', children: []};
 }
 
+function removeRelativeBase(relativePath) {
+  return relativePath.indexOf('./') === 0 ?
+    relativePath.slice(2) :
+    relativePath;
+}
+
 function buildPathTree(items) {
   var tree = emptyTree();
 
@@ -23,7 +29,8 @@ function buildPathTree(items) {
       const dir = parts.shift();
       let dirNode = node.children.find(n => n.name === dir);
       if (!dirNode) {
-        dirNode = {name: dir, path: node.path + path.sep + dir, children: []};
+        const fixedPath = removeRelativeBase(node.path + path.sep + dir);
+        dirNode = {name: dir, path: fixedPath, children: []};
         node.children.push(dirNode);
       }
 

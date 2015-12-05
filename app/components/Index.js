@@ -58,6 +58,7 @@ export default class Index extends Component {
   }
 
   render() {
+    console.log('rendering Index', this.props.workingTree.children.length);
     const tree = this.props.workingTree;
     const canCommit = hasStagedFiles(tree);
 

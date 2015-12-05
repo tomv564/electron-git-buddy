@@ -1,6 +1,13 @@
-## Event flow ##
+## Event flow
 
 Calls to deterministically refresh related state on actions:
+
+FS changes:
+
+Without filtering (.git vs outside of .git) we have to assume everything is changed  :(
+
+* getStatus, getLog, getStashes.
+
 
 staging changes:
 
@@ -14,7 +21,7 @@ stash push/pop:
 commit:
 
 * workingTree -> getSttus
-* history -> getLog()
+* history -> getLog() (local commits only)
 
 remote fetch:
 

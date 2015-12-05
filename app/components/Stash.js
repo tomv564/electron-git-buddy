@@ -40,6 +40,8 @@ export default class StashPanel extends Component {
   }
 
   render() {
+    console.log('rendering Stashes', this.props.stashes.length);
+
     const hasStashes = this.props.stashes.length > 0;
     return (
       <div>

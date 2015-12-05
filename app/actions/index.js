@@ -26,12 +26,6 @@ let refreshTrigger;
 
 let refreshTriggered = false;
 
-function remoteFetched() {
-  return {
-    type: REMOTE_FETCHED
-  };
-}
-
 function remotePushed() {
   return {
     type: REMOTE_PUSHED
@@ -39,6 +33,15 @@ function remotePushed() {
 }
 
 let fsEventsEnabled = true;
+
+
+function globalRefresh() {
+  return dispatch => {
+    dispatch(getStatus());
+    dispatch(getLog());
+    dispatch(getStashes());
+  };
+}
 
 export function startMonitor() {
   return dispatch => {
@@ -52,7 +55,8 @@ export function startMonitor() {
       refreshTriggered = true;
       refreshTrigger = global.setTimeout(() => {
         refreshTriggered = false;
-        dispatch(getStatus());
+        console.log('Monitor - refresh triggered');
+        dispatch(globalRefresh());
       }, FSEVENT_DELAY);
     });
   };
@@ -60,10 +64,14 @@ export function startMonitor() {
 
 function muteFsEvents() {
   fsEventsEnabled = false;
+  console.log('FS events muted');
 }
 
 function unMuteFsEvents() {
-  fsEventsEnabled = true;
+  setTimeout(() => {
+    fsEventsEnabled = true;
+    console.log('FS events unmuted');
+  }, 300);
 }
 
 export function fetch() {
@@ -101,11 +109,6 @@ export function receiveRemoteCommits(commits) {
   };
 }
 
-export function commitCreated() {
-  return {
-    type: COMMIT_CREATED
-  };
-}
 
 export function stashCreated(newStash) {
   return {
@@ -120,17 +123,29 @@ export function stashPopped() {
   };
 }
 
+function commitCreated() {
+  return dispatch => {
+    GitApi.getLog()
+      .then(commits => dispatch(receiveCommits(commits)));
+    dispatch(getStatus());
+  };
+}
+
 export function commit(text) {
   return dispatch => {
+    muteFsEvents();
     GitApi.createCommit(text)
-      .then(() => dispatch(commitCreated));
+      .then(() => dispatch(commitCreated()))
+      .finally(() => unMuteFsEvents());
   };
 }
 
 export function getLog() {
   return dispatch => {
+    console.log('reading local commits');
     GitApi.getLog()
       .then(commits => dispatch(receiveCommits(commits)));
+    console.log('reading remote commits');
     GitApi.getRemoteLog()
       .then(commits => dispatch(receiveRemoteCommits(commits)));
   };
@@ -161,15 +176,9 @@ export function stagePath(path) {
 }
 
 export function resetPath(path) {
-  let pathSpec = path;
-  if (path.indexOf('./') === 0) {
-    pathSpec = path.slice(2);
-    console.log(path);
-  }
-  // const pathSpec = path.slice(2);
   return dispatch => {
     muteFsEvents();
-    GitApi.resetPath(pathSpec)
+    GitApi.resetPath(path)
       .then(() => dispatch(getStatus()))
       .finally(() => unMuteFsEvents());
   };
@@ -177,6 +186,7 @@ export function resetPath(path) {
 
 export function getStashes() {
   return dispatch => {
+    console.log('getting stashes');
     GitApi.getStashes()
       .then(stashes => dispatch(receiveStashes(stashes)));
   };
@@ -197,6 +207,7 @@ export function popStash() {
 
 export function getStatus() {
   return dispatch => {
+    console.log('getting status');
     GitApi.getStatus()
       .then(status => dispatch(receiveStatus(status)));
   };
