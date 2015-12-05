@@ -71,7 +71,7 @@ function unMuteFsEvents() {
   setTimeout(() => {
     fsEventsEnabled = true;
     console.log('FS events unmuted');
-  }, 300);
+  }, 1000);
 }
 
 export function fetch() {
