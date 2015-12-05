@@ -1,16 +1,12 @@
-## Next session ##
-
-* Implement deterministic reloading of stashes state and clean up old stash events.
-
-
 ## IN PROGRESS ##
 
 Optimistic UI - IN PROGRESS
 
 * Staging - DONE
 * Committing
-* Stashing
-* Rebasing
+* Fetching
+* Pushing
+* Stashing - DONE
 
 Visualise remote vs local commits. IN PROGRESS
 
