@@ -135,7 +135,9 @@ export function commit(text) {
   return dispatch => {
     muteFsEvents();
     GitApi.createCommit(text)
-      .then(() => dispatch(commitCreated()))
+      .then(() => {
+        dispatch(commitCreated());
+      })
       .finally(() => unMuteFsEvents());
   };
 }

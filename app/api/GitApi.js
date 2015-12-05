@@ -83,11 +83,12 @@ export function createCommit(text) {
   return getRepository()
     .then(repo => repo.getHeadCommit()
       .then(head => {
-        repo.openIndex()
+        console.log('head loaded');
+        return repo.openIndex()
         .then(index => index.writeTree())
         .then(oid => {
           const signature = Git.Signature.default(repo);
-          repo.createCommit('HEAD', signature, signature,
+          return repo.createCommit('HEAD', signature, signature,
           text, oid, [head]).then(newOid => {
             console.log('create commit resulted in ', newOid.tostrS());
           });
