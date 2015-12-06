@@ -51,6 +51,6 @@ export default class DiffView extends Component {
                       this.renderDiff(this.props.diffs[files[0]]) :
                       [<p key="notice">Select a file to diff</p>];
 
-    return <div key={key} className="diff" style={{fontFamily: 'Source Code Pro, monospace', fontSize: 12, backgroundColor: '#fff', flex: 3}}>{content}</div>;
+    return <div key={key} className="diff" style={{fontFamily: 'Source Code Pro, monospace', fontSize: 12, backgroundColor: '#fff', flex: 3, overflowY: 'scroll'}}>{content}</div>;
   }
 }

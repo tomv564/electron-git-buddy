@@ -1,18 +1,6 @@
 ## IN PROGRESS ##
 
-Diff Rendering
-
-* Selected file is displayed - DONE
-    - New files show a diff - DONE
-* Diff view is visible in a scrollable container
-    - Container has appropriate height
-    - Container font type/size is appropriate - DONE
-* Diff view is styled - DONE
-    - Normal lines are normal
-    - Header is greyed out
-    - Deleted lines are red
-    - Added lines are green
-
+* BUG: Diff state not reset after commit/stage
 
 ## BACKLOG ##
 
@@ -48,6 +36,20 @@ As a user I receive notifications of automatically retrieved commitsAuto-fetch (
 * Packaging for OS-X
 
 ## DONE ##
+
+* Proper sizing / scrolling of panels under working tree.
+
+Diff Rendering
+
+* Selected file is displayed - DONE
+    - New files show a diff - DONE
+* Diff view is visible in a scrollable container
+    - Container font type/size is appropriate - DONE
+* Diff view is styled - DONE
+    - Normal lines are normal
+    - Header is greyed out
+    - Deleted lines are red
+    - Added lines are green
 
 As a user I can open a diff in my git difftool from the staging view
 

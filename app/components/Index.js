@@ -72,7 +72,7 @@ export default class Index extends Component {
       return <div>No changes detected</div>;
     }
 
-    return (<div style={{padding: 10}}>
+    return (<div style={{padding: 10, minWidth: 300, background: '#f6f6f6', overflow: 'scroll'}}>
               <div className="checkboxTree">
               {tree.children.map(this.renderItem.bind(this))}
              </div>

@@ -60,9 +60,9 @@ export default class Home extends Component {
   }
 
   renderIndexPanel() {
-    console.log(this.props.diffs);
+    console.log(this.props.diffs); // 219 + 59 = 278, + 62 =
     return (
-       <Panel key="index" style={{flex: 1}}>
+       <Panel key="index" style={{flex: 1, flexDirection: 'column'}}>
         <TitleBar>
           <h2>Index</h2>
           <ButtonGroup bsSize="small">
@@ -71,7 +71,7 @@ export default class Home extends Component {
             <Button onClick={() => this.props.stash()}><Glyphicon glyph="save"/> Stash</Button>
           </ButtonGroup>
         </TitleBar>
-        <div className={styles.fullContent} style={{ display: 'flex', flexDirection: 'row'}}>
+        <div className={styles.fullContent} style={{display: 'flex', flexDirection: 'row', height: '100vh', marginTop: -278, paddingTop: 278, paddingBottom: 62}}>
           <Index className={styles.content} workingTree={this.props.workingTree} diff={this.props.fileDiff} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath} commit={this.props.commit}/>
           <DiffView diffs={this.props.diffs}/>
         </div>
