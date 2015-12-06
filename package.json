@@ -53,7 +53,6 @@
     "babel-eslint": "^4.1.1",
     "babel-loader": "^5.3.2",
     "babel-plugin-react-transform": "^1.1.1",
-    "bootstrap": "^3.3.5",
     "chai": "^3.3.0",
     "chromedriver": "^2.19.0",
     "css-loader": "^0.22.0",
@@ -72,6 +71,7 @@
     "minimist": "^1.2.0",
     "mocha": "^2.3.0",
     "node-libs-browser": ">= 0.4.0 <=0.6.0",
+    "object-assign": "^4.0.1",
     "postcss": "^5.0.11",
     "postcss-modules-extract-imports": "^1.0.0",
     "postcss-modules-local-by-default": "^1.0.0",
@@ -98,6 +98,7 @@
     "webpack-target-electron-renderer": "^0.1.1"
   },
   "dependencies": {
+    "bootstrap": "^3.3.6",
     "dateformat": "^1.0.12",
     "electron-debug": "^0.4.0",
     "font-awesome": "^4.4.0",

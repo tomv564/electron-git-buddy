@@ -1,3 +1,8 @@
+## Publishing
+
+* Make sure all configuration changes to dev webpack are also applied 
+* There are issues loading assets from publicPath (which is rooted to Filesystem instead of base url) https://github.com/webpack/webpack/issues/1440
+
 ## Diff 
 
 ### Selecting the right comparison
