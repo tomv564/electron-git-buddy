@@ -13,7 +13,7 @@ config.devtool = 'source-map';
 
 config.entry = './app/index';
 
-config.output.publicPath = '/dist/';
+config.output.publicPath = '../dist/';
 
 config.module.loaders.push({
   test: /^((?!\.module).)*\.css$/,
@@ -38,7 +38,9 @@ config.plugins.push(
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.DefinePlugin({
     '__DEV__': false,
-    'process.env': JSON.stringify('production')
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
   }),
   new webpack.optimize.UglifyJsPlugin({
     compressor: {
