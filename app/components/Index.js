@@ -56,7 +56,7 @@ export default class Index extends Component {
                onClick={() => this.toggleStaged(item.path, item.isStaged)}
                readOnly />
 
-          { item.children ? '' : <a style={{paddingLeft: 5}} href='' onClick={() => this.props.diff(item.path)}><Glyphicon style={{ color: '#999'}} glyph="eye-open"/></a> }
+          { item.children ? '' : <a style={{paddingLeft: 5}} onClick={() => this.props.diff(item.path)}><Glyphicon style={{ color: '#999'}} glyph="eye-open"/></a> }
         </div>
         {childTree}
       </div>

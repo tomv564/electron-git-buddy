@@ -18,6 +18,20 @@ export function getStatus() {
       });
 }
 
+export function getFileDiff(pathSpec) {
+  return getRepository()
+    .then(repo => {
+      return repo.openIndex().then( index => {
+        const opts = {
+          flags: Git.Diff.OPTION.INCLUDE_UNTRACKED |
+                 Git.Diff.OPTION.RECURSE_UNTRACKED_DIRS,
+          pathspec: pathSpec
+        };
+        return Git.Diff.indexToWorkdir(repo, index, opts);
+      });
+    });
+}
+
 export function stagePath(pathSpec) {
   return getRepository()
     .then(repo => repo.openIndex())

@@ -1,10 +1,5 @@
 ## IN PROGRESS ##
 
-As a user I can open a diff in my git difftool from the staging view
-
-* Add diff links to files
-* Add diff action that logs 
-* Hook up diff action to nodegit difftool
 
 ## BACKLOG ##
 
@@ -40,6 +35,12 @@ As a user I receive notifications of automatically retrieved commitsAuto-fetch (
 * Packaging for OS-X
 
 ## DONE ##
+
+As a user I can open a diff in my git difftool from the staging view
+
+* Add diff links to files - DONE
+* Add diff action that logs - DONE
+* Hook up diff action to nodegit difftool - DONE
 
 Optimistic UI - DONE
 

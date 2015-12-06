@@ -1,3 +1,13 @@
+## Diff rendering
+
+foreach hunk:
+
+* print hunk.header()
+* foreach hunk.lines:
+    - with determinedColor(line):
+        - print line
+
+
 ## Event flow
 
 Calls to deterministically refresh related state on actions:

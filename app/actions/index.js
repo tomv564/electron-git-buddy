@@ -15,6 +15,7 @@ export const STASH_POPPED = 'STASH_POPPED';
 export const RECEIVE_COMMITS = 'RECEIVE_COMMITS';
 export const RECEIVE_REMOTE_COMMITS = 'RECEIVE_REMOTE_COMMITS';
 
+export const RECEIVE_DIFF = 'RECEIVE_DIFF';
 
 const FSEVENT_DELAY = 500;
 const repoPath = '.';
@@ -67,6 +68,13 @@ function unMuteFsEvents() {
   }, 1000);
 }
 
+export function receiveDiff(diff) {
+  return {
+    type: RECEIVE_DIFF,
+    diff: diff
+  };
+}
+
 export function fetch() {
   return dispatch => {
     muteFsEvents();
@@ -77,7 +85,52 @@ export function fetch() {
   };
 }
 
-export function diff(filePath) {
+export function fileDiff(filePath) {
+  return dispatch => {
+    GitApi.getFileDiff(filePath)
+      .then(diff => diff.patches())
+      .then(patches => {
+        var result = [];
+        var hunkPromises = [];
+        patches.forEach(function(patch) {
+          hunkPromises.push(patch.hunks()
+            .then(function(hunks) {
+              result = result.concat(hunks);
+            })
+          );
+        });
+
+        return Promise.all(hunkPromises)
+          .then(function() {
+            console.log(result);
+            return result;
+          });
+      })
+      .then(function(hunks) {
+      //   var result = [];
+      //   var linePromises = [];
+
+      //   hunks.forEach(function(hunk) {
+      //     linePromises.push(hunk.lines()
+      //       .then(function(lines) {
+      //         result = result.concat(lines);
+      //       })
+      //     );
+      //   });
+
+      //   return Promise.all(linePromises)
+      //     .then(function() {
+      //       return result;
+      //     });
+      // })
+      // .then(function(lines) {
+      //   debugger;
+        dispatch(receiveDiff(hunks));
+      });
+  };
+}
+
+export function diffTool(filePath) {
   cp.spawn('git', ['difftool', filePath]);
   return {
     type: 'DIFF_REQUESTED',
