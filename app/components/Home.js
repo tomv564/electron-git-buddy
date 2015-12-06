@@ -5,6 +5,7 @@ import Index from './Index';
 import Panel from './Panel';
 import History from './History';
 import TitleBar from './TitleBar';
+import DiffView from './DiffView';
 import {Button, ButtonGroup, Glyphicon, Badge} from 'react-bootstrap';
 
 export default class Home extends Component {
@@ -24,7 +25,8 @@ export default class Home extends Component {
     push: PropTypes.func.isRequired,
     diffTool: PropTypes.func.isRequired,
     fileDiff: PropTypes.func.isRequired,
-    popStash: PropTypes.func.isRequired
+    popStash: PropTypes.func.isRequired,
+    diffs: PropTypes.object.isRequired
   }
 
   componentDidMount() {
@@ -58,6 +60,7 @@ export default class Home extends Component {
   }
 
   renderIndexPanel() {
+    console.log(this.props.diffs);
     return (
        <Panel key="index" style={{flex: 1}}>
         <TitleBar>
@@ -68,8 +71,9 @@ export default class Home extends Component {
             <Button onClick={() => this.props.stash()}><Glyphicon glyph="save"/> Stash</Button>
           </ButtonGroup>
         </TitleBar>
-        <div className={styles.fullContent}>
-          <Index workingTree={this.props.workingTree} diff={this.props.fileDiff} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath} commit={this.props.commit}/>
+        <div className={styles.fullContent} style={{ display: 'flex', flexDirection: 'row'}}>
+          <Index className={styles.content} workingTree={this.props.workingTree} diff={this.props.fileDiff} getStatus={this.props.getStatus} stagePath={this.props.stagePath} resetPath={this.props.resetPath} commit={this.props.commit}/>
+          <DiffView diffs={this.props.diffs}/>
         </div>
       </Panel>
     );

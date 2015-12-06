@@ -1,5 +1,18 @@
 ## IN PROGRESS ##
 
+Diff Rendering
+
+* Selected file is displayed - DONE
+    - New files show a diff - DONE
+* Diff view is visible in a scrollable container
+    - Container has appropriate height
+    - Container font type/size is appropriate - DONE
+* Diff view is styled - DONE
+    - Normal lines are normal
+    - Header is greyed out
+    - Deleted lines are red
+    - Added lines are green
+
 
 ## BACKLOG ##
 

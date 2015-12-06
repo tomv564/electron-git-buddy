@@ -69,10 +69,10 @@ export default class Index extends Component {
     const canCommit = hasStagedFiles(tree);
 
     if (tree.children.length < 1) {
-      return <p>No changes detected</p>;
+      return <div>No changes detected</div>;
     }
 
-    return (<div>
+    return (<div style={{padding: 10}}>
               <div className="checkboxTree">
               {tree.children.map(this.renderItem.bind(this))}
              </div>

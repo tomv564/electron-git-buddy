@@ -20,7 +20,7 @@ div.devWrapper {
   height: 100%;
 }
 
-/* bootstrap overrides */
+/* bootstrap overrides TODO: move me; */
 .checkboxTree .checkbox {
   margin-top: 0;
   margin-bottom: 0;
@@ -32,4 +32,32 @@ div.devWrapper {
 
 .checkboxTree ul {
   margin-bottom: 0;
+}
+
+table.table {
+  margin-bottom: 0;
+}
+
+span.lineNo {
+  display: inline-block;
+  width: 20px;
+  color: #ddd;
+}
+
+div.diff p {
+  margin-bottom: 0;
+  padding-left: 5px;
+  white-space: pre;
+}
+
+div.diff p.header {
+  color: #ddd;
+}
+
+div.diff p.new {
+  background-color: #e5ffe5;
+}
+
+div.diff p.deleted {
+  background-color: #ffe5e5;
 }

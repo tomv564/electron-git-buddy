@@ -26,13 +26,23 @@ export default class History extends Component {
     this.props.getLog();
   }
 
+
+  getCommitClass(commit) {
+    if (commit.local && !commit.remote) {
+      return 'success';
+    } else if (commit.remote && !commit.local) {
+      return 'warning';
+    }
+    return 'normal';
+  }
+
   formatDate(date) {
     return dateFormat(date, 'yyyy-mm-dd HH:MM');
   }
 
   renderCommit(commit, index) {
     return (
-        <tr key={'commit-' + index}>
+        <tr key={'commit-' + index} className={this.getCommitClass(commit)}>
           <td>{commit.local ? 'L' : ''}</td>
           <td>{commit.remote ? 'R' : ''}</td>
           <td>{this.formatDate(commit.date)}</td>
@@ -48,7 +58,7 @@ export default class History extends Component {
     const latest = values.sort(compareDateDesc).slice(0, 5);
     // debugger;
     return (
-      <table className="table">
+      <table className="table table-condensed">
         <tbody>{latest.map(this.renderCommit.bind(this))}</tbody>
       </table>
     );

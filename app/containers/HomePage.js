@@ -7,7 +7,8 @@ function mapStateToProps(state) {
   return {
     stashes: state.stashes,
     commits: state.commits,
-    workingTree: state.workingTree
+    workingTree: state.workingTree,
+    diffs: state.diffs
   };
 }
 

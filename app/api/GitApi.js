@@ -18,17 +18,58 @@ export function getStatus() {
       });
 }
 
+function readLine(line) {
+  return {
+    content: line.content(),
+    oldLineNo: line.oldLineno(),
+    newLineNo: line.newLineno()
+  };
+}
+
+function readLines(hunk) {
+  return hunk.lines().then(lines => lines.map(readLine));
+}
+
+function readHunk(hunk) {
+  return readLines(hunk).then(
+    lines => {
+      return { header: hunk.header(), lines: lines };
+    }
+  );
+}
+
+function readHunks(hunks) {
+  return Promise.all(hunks.map(readHunk));
+}
+
+function gatherHunks(patches) {
+  let result = [];
+  const hunkPromises = [];
+
+  patches.forEach(patch => {
+    hunkPromises.push(patch.hunks().then(hunks => { result = result.concat(hunks); }));
+  });
+
+  return Promise.all(hunkPromises).then(() => { return result; });
+}
+
 export function getFileDiff(pathSpec) {
   return getRepository()
     .then(repo => {
-      return repo.openIndex().then( index => {
-        const opts = {
-          flags: Git.Diff.OPTION.INCLUDE_UNTRACKED |
-                 Git.Diff.OPTION.RECURSE_UNTRACKED_DIRS,
-          pathspec: pathSpec
-        };
-        return Git.Diff.indexToWorkdir(repo, index, opts);
-      });
+      return repo.getHeadCommit()
+        .then( commit => commit.getTree())
+        .then( tree => {
+          const opts = {
+            flags: Git.Diff.OPTION.INCLUDE_UNTRACKED |
+                   Git.Diff.OPTION.RECURSE_UNTRACKED_DIRS |
+                   Git.Diff.OPTION.SHOW_UNTRACKED_CONTENT,
+            pathspec: pathSpec
+          };
+          return Git.Diff.treeToWorkdirWithIndex(repo, tree, opts)
+              .then(diff => diff.patches())
+              .then(patches => gatherHunks(patches))
+              .then(hunks => readHunks(hunks));
+        });
     });
 }
 

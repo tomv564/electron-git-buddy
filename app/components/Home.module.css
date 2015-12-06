@@ -42,7 +42,7 @@
 }
 
 .content {
-    background: #f6f6f6;
+  background: #f6f6f6;
   padding: 10px;
   font-size: 12px;
   overflow-y: scroll;
@@ -51,7 +51,6 @@
 
 .fullContent {
   background: #f6f6f6;
-  padding: 10px;
   height: 100vh;
   /*overflow-y: scroll;*/
 }

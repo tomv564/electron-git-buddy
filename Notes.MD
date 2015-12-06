@@ -1,4 +1,15 @@
-## Diff rendering
+## Diff 
+
+### Selecting the right comparison
+
+We want to always get full diff to head including untracked files. 
+The right combination of the following factors:
+
+* Diff.treeToWorkdirWithIndex 
+* old_tree = HEAD commit
+* All untracked changes flags including content
+
+### Rendering
 
 foreach hunk:
 

@@ -68,10 +68,11 @@ function unMuteFsEvents() {
   }, 1000);
 }
 
-export function receiveDiff(diff) {
+export function receiveDiff(filePath, hunks) {
   return {
     type: RECEIVE_DIFF,
-    diff: diff
+    filePath: filePath,
+    hunks: hunks
   };
 }
 
@@ -88,45 +89,7 @@ export function fetch() {
 export function fileDiff(filePath) {
   return dispatch => {
     GitApi.getFileDiff(filePath)
-      .then(diff => diff.patches())
-      .then(patches => {
-        var result = [];
-        var hunkPromises = [];
-        patches.forEach(function(patch) {
-          hunkPromises.push(patch.hunks()
-            .then(function(hunks) {
-              result = result.concat(hunks);
-            })
-          );
-        });
-
-        return Promise.all(hunkPromises)
-          .then(function() {
-            console.log(result);
-            return result;
-          });
-      })
-      .then(function(hunks) {
-      //   var result = [];
-      //   var linePromises = [];
-
-      //   hunks.forEach(function(hunk) {
-      //     linePromises.push(hunk.lines()
-      //       .then(function(lines) {
-      //         result = result.concat(lines);
-      //       })
-      //     );
-      //   });
-
-      //   return Promise.all(linePromises)
-      //     .then(function() {
-      //       return result;
-      //     });
-      // })
-      // .then(function(lines) {
-      //   debugger;
-        dispatch(receiveDiff(hunks));
-      });
+      .then(hunks => dispatch(receiveDiff(filePath, hunks)));
   };
 }
 
