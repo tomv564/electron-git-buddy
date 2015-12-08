@@ -17,10 +17,11 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   mainWindow = new BrowserWindow({ width: 1024, height: 728, 'title-bar-style': 'hidden' });
 
+  var repoPath = process.argv[1];
   if (process.env.HOT) {
-    mainWindow.loadUrl('file://' + __dirname + '/app/hot-dev-app.html');
+    mainWindow.loadUrl('file://' + __dirname + '/app/hot-dev-app.html?repo=' + repoPath);
   } else {
-    mainWindow.loadUrl('file://' + __dirname + '/app/app.html');
+    mainWindow.loadUrl('file://' + __dirname + '/app/app.html?repo=' + repoPath);
   }
 
   mainWindow.on('closed', function() {
@@ -35,7 +36,7 @@ app.on('ready', function() {
     template = [{
       label: 'Electron',
       submenu: [{
-        label: 'About ElectronReact',
+        label: 'About Git Buddy',
         selector: 'orderFrontStandardAboutPanel:'
       }, {
         type: 'separator'
@@ -45,7 +46,7 @@ app.on('ready', function() {
       }, {
         type: 'separator'
       }, {
-        label: 'Hide ElectronReact',
+        label: 'Hide Git Buddy',
         accelerator: 'Command+H',
         selector: 'hide:'
       }, {
@@ -215,7 +216,12 @@ app.on('ready', function() {
         }
       }]
     }];
-    menu = Menu.buildFromTemplate(template);
-    mainWindow.setMenu(menu);
+    if (process.platform === 'darwin') {
+      menu = Menu.buildFromTemplate(template);
+      mainWindow.setMenu(menu);
+    } else {
+      mainWindow.setMenuBarVisibility(false)
+    }
+    
   }
 });

@@ -18,7 +18,14 @@ export const RECEIVE_REMOTE_COMMITS = 'RECEIVE_REMOTE_COMMITS';
 export const RECEIVE_DIFF = 'RECEIVE_DIFF';
 
 const FSEVENT_DELAY = 500;
-const repoPath = '.';
+
+function getQueryStringValue (key) {  
+  return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
+}  
+
+// Would write the value of the QueryString-variable called name to the console  
+const repoPath = getQueryStringValue("repo")
+console.log(repoPath);
 
 GitApi.getRepository(repoPath);
 

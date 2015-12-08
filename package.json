@@ -11,10 +11,10 @@
     "lint": "eslint .",
     "fix": "eslint --fix",
     "hot-server": "node server.js",
-    "build": "NODE_ENV=production webpack --config webpack.config.production.js --progress --profile --colors",
+    "build": "webpack --config webpack.config.production.js --progress --profile --colors",
     "start": "electron .",
     "start-hot": "HOT=1 NODE_ENV=development electron .",
-    "package": "NODE_ENV=production node package.js",
+    "package": "node package.js",
     "package-all": "npm run package -- --all"
   },
   "engines": {

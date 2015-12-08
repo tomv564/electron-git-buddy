@@ -36,7 +36,7 @@ export default class Home extends Component {
   renderHistoryPanel() {
     return (
       <Panel key="history" styles={styles.historyPanel}>
-        <TitleBar>
+        <TitleBar styles={{borderTop: 0}}>
           <div className={styles.panelTitleWrapper}>
             <h2>Commits</h2>
             <div className={styles.panelTitleContent}>
